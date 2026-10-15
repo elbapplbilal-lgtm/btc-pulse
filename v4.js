@@ -11,15 +11,25 @@ if(header){
  if(search){const side=header.querySelector('.header-side');if(side)side.insertBefore(search,side.firstChild)}
  const bell=el('button','icon-button');bell.id='pulseBellBtn';bell.type='button';bell.innerHTML=svgIcon('bell');bell.setAttribute('aria-label','آخر معاملات شبكة البيتكوين');bell.title='آخر معاملات شبكة البيتكوين';bell.addEventListener('click',()=>document.getElementById('transactions')?.scrollIntoView({behavior:'smooth'}));
  const side=header.querySelector('.header-side');side?.append(bell);
- const settingsHook=document.getElementById('menuBtn');if(settingsHook){settingsHook.addEventListener('click',()=>{});}
+ 
 }
 const chartLabel=document.getElementById('chartLabel');if(chartLabel)chartLabel.textContent='⌄ 24 ساعة';
 const feature=document.getElementById('featured');
 if(feature){
  const title=feature.querySelector('h2');if(title){title.innerHTML='<span class="orange" aria-hidden="true">♛</span> لوحة المتصدرين للبيتكوين'}
  const p=feature.querySelector('.section-head p');if(p)p.textContent='أكبر العناوين العامة المختارة حسب الرصيد الحقيقي على الشبكة';
- const headAction=feature.querySelector('.section-head button');if(headAction)headAction.textContent='‹ عرض الكل';
+ const headAction=feature.querySelector('.section-head button');if(headAction)headAction.textContent='‹ إضافة عنوان';
  const tabs=feature.querySelectorAll('[data-featured-sort]');for(const t of tabs){if(t.dataset.featuredSort==='balance')t.textContent='♛ أكبر العناوين';else if(t.dataset.featuredSort==='address')t.textContent='▣ عناوين المحافظ';else if(t.dataset.featuredSort==='activity')t.textContent='▥ حجم المعاملات'}
+}
+// Keep icon variations decorative only: do not attribute wallet owners from icons.
+const featuredHost=document.getElementById('featuredCards');
+if(featuredHost){
+ function decorate(){
+  const icons=featuredHost.querySelectorAll('.featured-card .featured-icon');
+  if(icons[1])icons[1].textContent='▦';
+  if(icons[2])icons[2].textContent='▣';
+ }
+ new MutationObserver(decorate).observe(featuredHost,{childList:true});decorate();
 }
 const fees=document.getElementById('fees');if(fees){const note=fees.querySelector('.section-head p');if(note)note.textContent='أحدث رسوم التحويل ونشاط الشبكة من بيانات عامة حقيقية';}
 const search=document.querySelector('.search-section input');if(search)search.placeholder='ابحث عن معاملة، محفظة، أو عنوان بيتكوين...';
