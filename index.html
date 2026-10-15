@@ -383,7 +383,8 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
        caption.style.color='#ffc18a';
      }
    }
-   return valid>0;
+   // Cached values remain visible but never claim a successful live connection.
+   return fresh.length>0;
  }
  async function fetchRecent(){
    try{
