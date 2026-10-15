@@ -252,21 +252,69 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
    $('chartPlaceholder').hidden=true;
  }
  async function fetchPrice(){
+   // Prefer aggregated market data, fall back to a second public aggregate.
    const cgUrl=CG+'/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_market_cap=true&include_24hr_vol=true';
    try{
-     const cg=C.normalizeCgPrice(await apiFetch(cgUrl,{timeout:7000}));
-     if(!cg)throw Error('Invalid CoinGecko value');renderPrice(cg);return true;
+     const cg=C.normalizeCgPrice(await apiFetch(cgUrl,{timeout:6500}));
+     if(!cg)throw Error('Invalid CoinGecko values');
+     renderPrice(cg);return true;
    }catch{}
    try{
-     const mem=C.normalizeMempoolPrice(await apiFetch(API+'/v1/prices',{timeout:9000}));
-     if(!mem)throw Error('Invalid mempool BTC USD value');renderPrice(mem);return true;
+     const raw=await apiFetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=USD',{timeout:8000});
+     const q=raw?.quotes?.USD,usd=q?.price;
+     if(!Number.isFinite(usd)||usd<=0)throw Error('Invalid CoinPaprika USD price');
+     renderPrice({
+       usd,
+       dayChange:Number.isFinite(q.percent_change_24h)?q.percent_change_24h:null,
+       marketCap:Number.isFinite(q.market_cap)&&q.market_cap>0?q.market_cap:null,
+       volume24h:Number.isFinite(q.volume_24h)&&q.volume_24h>=0?q.volume_24h:null
+     });
+     return true;
+   }catch{}
+   try{
+     const mem=C.normalizeMempoolPrice(await apiFetch(API+'/v1/prices',{timeout:8500}));
+     if(!mem)throw Error('Invalid mempool BTC USD value');
+     renderPrice(mem);return true;
    }catch{return false}
  }
  async function fetchMarketChart(){
+   const placeholder=$('chartPlaceholder'),label=$('chartLabel');
    try{
-     const data=await apiFetch(CG+'/coins/bitcoin/market_chart?vs_currency=usd&days=1',{timeout:10500});
-     renderChart(data?.prices);
-   }catch{$('chartPlaceholder').textContent='الرسم البياني غير متاح حالياً'}
+     const raw=await apiFetch(CG+'/coins/bitcoin/market_chart?vs_currency=usd&days=1',{timeout:8500});
+     if(!Array.isArray(raw?.prices)||raw.prices.length<5)throw Error('Empty CoinGecko chart');
+     renderChart(raw.prices);
+     label.textContent='24 ساعة · CoinGecko';
+     return true;
+   }catch{}
+   // Kraken publishes public exchange OHLC candles; do not pretend they are
+   // an aggregated market-wide price history.
+   try{
+     const raw=await apiFetch('https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=15',{timeout:8500});
+     if(raw?.error?.length)throw Error('Kraken returned errors');
+     const candles=Object.entries(raw?.result||{}).find(([key,value])=>key!=='last'&&Array.isArray(value))?.[1];
+     const latest=Date.now(),lower=latest-26*3600000;
+     const points=(candles||[]).map(row=>[Number(row[0])*1000,Number(row[4])])
+       .filter(([stamp,close])=>Number.isFinite(stamp)&&Number.isFinite(close)&&close>0&&stamp>=lower&&stamp<=latest+900000).slice(-97);
+     if(points.length<5)throw Error('No recent Kraken candles');
+     renderChart(points);
+     label.textContent='24 ساعة · Kraken BTC/USD';
+     return true;
+   }catch{}
+   try{
+     const rows=await apiFetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=96',{timeout:8500});
+     const now=Date.now();
+     const points=(Array.isArray(rows)?rows:[]).map(row=>[Number(row[0]),Number(row[4])])
+       .filter(([stamp,close])=>Number.isFinite(stamp)&&Number.isFinite(close)&&close>0&&stamp>=now-26*3600000&&stamp<=now+900000);
+     if(points.length<5)throw Error('No recent BTC/USDT candles');
+     renderChart(points);
+     label.textContent='24 ساعة · Binance BTC/USDT';
+     return true;
+   }catch{
+     placeholder.hidden=false;
+     placeholder.textContent='الرسم البياني غير متاح مؤقتاً · حاول التحديث';
+     label.textContent='24 ساعة · غير متاح';
+     return false;
+   }
  }
  async function fetchNetwork(){
    const targets=[['fees',API+'/v1/fees/recommended'],['pending',API+'/mempool'],['diff',API+'/v1/difficulty-adjustment']];
