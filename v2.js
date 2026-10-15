@@ -16,7 +16,7 @@ const search=document.querySelector('.search-section');
 if(!search)return;
 const section=el('section','featured-section');section.id='featured';section.setAttribute('aria-labelledby','featuredHeading');
 section.innerHTML='<div class="section-head"><div><span class="eyebrow">BITCOIN / PUBLIC ADDRESSES</span>'
-+'<h2 id="featuredHeading"><span class="orange">♛</span> لوحة عناوين بيتكوين البارزة</h2>'
++'<h2 id="featuredHeading"><span class="orange">♛</span> لوحة المتصدرين للبيتكوين</h2>'
 +'<p>أرصدة حقيقية لثلاثة عناوين عمومية معروفة؛ ليست ترتيباً شاملاً لأغنى ملاك البيتكوين.</p></div>'
 +'<button class="btn-subtle" id="featuredAdd" type="button">+ إضافة عنواني</button></div>'
 +'<div class="featured-tabs" role="group" aria-label="ترتيب العناوين العامة">'
