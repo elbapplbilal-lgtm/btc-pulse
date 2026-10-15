@@ -1,17 +1,21 @@
-# BTC PULSE — معلومات بيتكوين مباشرة
+# BTC PULSE
 
-موقع مستقل ومجاني بتصميم عربي أسود وبرتقالي، للقراءة فقط. يعرض سعر BTC، رسوم التحويل، معلومات نشاط الشبكة، البحث عن معاملات Bitcoin وعناوينها، ومتابعة عناوين عامة يختارها الزائر.
+Arabic RTL Bitcoin dashboard in one standalone `index.html`. Uses Cairo, a centered 420px mobile layout, background `#050505`, cards `#101010`, and accent `#ff8c00`.
 
-## تشغيل الموقع
-هذا إصدار HTML واحد بدون أدوات بناء أو قاعدة بيانات: افتح `index.html` في متصفح حديث، أو انشر المستودع على GitHub Pages.
+Open `index.html` in a modern browser. No build, packages, API key, or backend is required. Cairo loads from Google Fonts; a sans-serif fallback is available offline.
 
-## مصادر البيانات
-- [mempool.space API](https://mempool.space/docs/api/rest): حالة الشبكة، رسوم التحويل، المعاملات، بيانات عناوين Bitcoin.
-- [CoinGecko](https://docs.coingecko.com/): بيانات السوق وبيانات الرسم البياني عند توفرها.
+## Data and interactions
 
-تُجلب البيانات من خدمات خارجية مجانية مع حدود طلبات، ولذلك بعض الأرقام قد لا تظهر إذا تعذر الاتصال أو وصلنا للحد المجاني. لا توجد أسعار أو أرصدة مفبركة. الخدمة ليست محفظة ولا منصة تداول.
+- The Bitcoin USD price loads immediately from `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd` and refreshes every 30 seconds.
+- Price requests time out after 10 seconds. Invalid responses, network errors, and rate limits preserve the last valid price and show its status. Before the first successful response, `$67,245.24` is an explicitly labeled illustrative fallback.
+- The chart, 24-hour change, four market figures, three wallet balances/shortened addresses, and network figures are the supplied **static design examples**, not live data or a verified rich list.
+- Search filters the three displayed wallets. Submit a complete Bitcoin address or transaction ID to get a link to mempool.space. Shortened sample addresses cannot be opened as real wallets.
+- Five navigation items lead to the homepage, wallets, search, network, and information dialog. The header provides refresh and menu controls.
 
-## خصوصية وسلامة
-لا تضع كلمات الاسترداد أو المفاتيح الخاصة في الموقع. فقط العناوين العمومية المضافة طوعياً تُرسل لمزود البيانات لحساب الأرصدة. يحفظ المتصفح قائمة العناوين محلياً، ولا يوجد حساب مستخدم أو قاعدة بيانات سحابية.
+## GitHub Pages
 
-المقارنة بين أرصدة العناوين التي تتابعها **ليست** قائمة بأغنى الأشخاص أو مالكي Bitcoin في العالم.
+`.github/workflows/deploy.yml` deploys on pushes to `main` or manual runs. It stages only `index.html`, uploads the Pages artifact, and publishes with `actions/deploy-pages@v4`.
+
+Repository **Settings → Pages → Source** must be **GitHub Actions**. The workflow grants `contents: read`, `pages: write`, and `id-token: write`, with the `github-pages` deployment environment.
+
+Older versioned CSS/JS files are retained in the repository but are not referenced or deployed by this standalone version.

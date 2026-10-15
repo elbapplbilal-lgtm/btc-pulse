@@ -3,601 +3,221 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b0c12">
-  <meta name="description" content="BTC PULSE — معلومات بيتكوين الحقيقية: السعر، الرسوم، المعاملات، ومتابعة عناوين المحافظ العمومية.">
-  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIiB2aWV3Qm94PSIwIDAgMTYwIDE2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJvcmFuZ2UiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZmZiZTQwIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmY3ODEwIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjE0NCIgaGVpZ2h0PSIxNDQiIHJ4PSIzNiIgZmlsbD0iIzE3MTgyMCIgc3Ryb2tlPSIjZmY4YTE5IiBzdHJva2Utd2lkdGg9IjYiLz48Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSI1MSIgZmlsbD0idXJsKCNvcmFuZ2UpIi8+PHRleHQgeD0iODAiIHk9IjExMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4oK/PC90ZXh0Pjwvc3ZnPgo=" type="image/svg+xml">
-  
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="BTC PULSE — نبض البيتكوين. سعر بيتكوين بالدولار، كبار المحافظ وإحصائيات الشبكة في واجهة عربية.">
+  <title>BTC PULSE | نبض البيتكوين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-size='46' font-family='Arial' fill='%23ff8c00'%3E₿%3C/text%3E%3C/svg%3E">
   <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
-:root{--bg:#0b0c12;--surface:#15171f;--card:#1b1d26;--border:#30323f;--muted:#9999a9;--white:#f6f7ff;--orange:#ff8b17;--orange2:#ffa136;--green:#26ca74;--red:#ff6f73;--blue:#48aef4;--purple:#bd70fc;font-family:'Cairo',sans-serif;font-size:14px;color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(1000px 460px at 50% -130px,#21202b 0%,transparent 60%),var(--bg);color:var(--white);min-height:100vh;padding-bottom:90px}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:wait;opacity:.5}a{color:inherit}a:hover{color:var(--orange)}.skip-link{position:absolute;top:-100px;right:20px;background:var(--orange);color:#141417;padding:9px;z-index:999}.skip-link:focus{top:5px}:focus-visible{outline:3px solid #ffb34f;outline-offset:3px}[hidden]{display:none!important}
-.site-header{height:82px;max-width:1250px;margin:0 auto;padding:0 24px;display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;gap:14px}.header-side{display:flex;align-items:center;gap:10px}.icon-button{border:0;background:transparent;color:#f0f1f8;width:44px;height:44px;display:grid;place-items:center;border-radius:11px}.icon-button:hover,.icon-button:focus-visible{background:#22232e}.icon-button svg{width:25px;height:25px}.brand{display:flex;align-items:center;direction:ltr;white-space:nowrap;text-decoration:none;gap:3px;font:900 clamp(21px,3vw,33px) 'Inter',sans-serif;letter-spacing:-.06em}.brand-btc{color:#fff}.brand-pulse,.pulse{color:var(--orange)}.pulse{width:36px;height:23px;margin-left:4px}.refresh-button{color:#ff9f3e}
-.content{max-width:1190px;margin:0 auto;padding:0 22px 100px}.status-line{display:flex;gap:8px;align-items:center;min-height:32px;font-size:11px;color:#9fabba;margin:1px 2px 14px}.status-spacer{flex:1}.live-dot{width:8px;height:8px;border-radius:50%;background:#f59c32;box-shadow:0 0 0 4px #ff941c16;flex-shrink:0}.live-dot.is-live{background:#28cf8e;box-shadow:0 0 0 4px #2be0a41f}.live-dot.is-error{background:#e7676b;box-shadow:0 0 0 4px #ff565619}.last-updated{direction:ltr;font:500 11px 'Inter',sans-serif;white-space:nowrap}
-.hero-card{border:1px solid #c37322;border-radius:19px;position:relative;overflow:hidden;background:radial-gradient(480px 260px at 85% 0,#291a0e4d,transparent),linear-gradient(180deg,#111217,#111219);box-shadow:0 0 0 1px #ff8a2018,0 12px 32px #0002}.hero-main{display:grid;grid-template-columns:1fr .8fr;gap:22px;padding:24px 25px 12px}.hero-price-block{min-width:0}.price-label{color:#dadde6;font-size:16px;font-weight:800}.price-label .muted{font:700 11px 'Inter',sans-serif;color:#aa93a0;margin-inline-start:8px}.hero-price-row{display:flex;align-items:center;gap:15px;margin-top:11px;direction:ltr;justify-content:flex-end}.coin-icon{display:grid;place-items:center;min-width:92px;width:92px;height:92px;border-radius:50%;background:linear-gradient(155deg,#ffb632,#ff7b07);color:white;font:800 58px 'Inter',sans-serif;box-shadow:0 0 0 5px #ff9a1b0d,0 12px 45px #ff881d22;transform:rotate(12deg)}.price-stack{display:flex;flex-direction:column;align-items:flex-end;min-width:0;gap:8px}.hero-price{font:900 clamp(26px,4.7vw,57px) 'Inter',sans-serif;letter-spacing:-.06em;line-height:1.08;color:#f4f6ff;white-space:nowrap;font-variant-numeric:tabular-nums}.price-change{font:800 13px 'Inter',sans-serif;direction:ltr}.change-pill{border:1px solid #157f50;border-radius:24px;color:#52e798;background:#0a412c;padding:6px 10px;display:inline-block}.change-pill.negative{border-color:#793c45;color:#ff9197;background:#451f28}.neutral-pill{border:1px solid #474451;color:#b4b3c0;border-radius:20px;padding:6px 10px;display:inline-block}.hero-small-note{color:#9a96a3;font-size:10px;margin-top:16px;line-height:1.5}.chart-area{min-width:0;position:relative;display:flex;flex-direction:column;justify-content:flex-end}.chart-head{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700;color:#a4a1aa;gap:6px}.chart-head span:last-child{font:700 11px 'Inter',sans-serif;color:var(--orange)}.sparkline{width:100%;height:152px;display:block;margin-top:10px;filter:drop-shadow(0 0 8px #ff950c28)}.chart-placeholder{position:absolute;top:43%;left:0;right:0;text-align:center;font-size:11px;color:#9797a6}.hero-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:11px 15px 0;padding:14px 0;background:linear-gradient(180deg,#1b1c25,#161720);border:1px solid #242530;border-radius:13px}.mini-metric{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;border-inline-start:1px solid #333442;padding:0 8px;min-width:0}.mini-metric:last-child{border:0}.mini-metric span{font-size:10px;color:#b6b5be;line-height:1.6}.mini-metric b{font:800 clamp(11px,1.6vw,19px) 'Inter',sans-serif;direction:ltr;white-space:nowrap}.hero-source{text-align:center;font-size:10px;color:#8d8793;padding:9px 12px 13px}.hero-source a{color:#cfa070;text-decoration:none}
-.search-section{margin:21px 0 27px}.search-box{display:flex;align-items:center;min-height:69px;background:linear-gradient(120deg,#24252e,#1b1c23);border:1px solid #d27c25;border-radius:15px;box-shadow:0 0 0 1px #df8a2a22,0 10px 25px #0004;padding:5px 10px 5px 6px;gap:9px}.search-box:focus-within{box-shadow:0 0 0 3px #ff9d2445}.search-box input{width:100%;background:transparent;border:0;outline:0;font-size:14px;color:#f7f1e8;min-width:0;text-align:right}.search-box input::placeholder{color:#aaa8b3}.search-submit{flex:0 0 49px;height:50px;border:0;background:transparent;color:#ff9f35;display:grid;place-items:center;border-radius:10px}.search-submit:hover{background:#503419}.search-submit svg{width:26px;height:26px}.search-hint{font-size:11px;color:#828392;margin:8px 8px 0;line-height:1.8}.alert,.form-error{color:#ffabb2;font-size:12px;background:#48252b55;border:1px solid #923d49;border-radius:9px;padding:10px;margin-top:10px;white-space:pre-wrap}
-section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 16px}.section-head h2{font-size:clamp(18px,2.9vw,25px);line-height:1.6;font-weight:900;margin:1px 0 3px}.section-head p{font-size:11px;color:#a0a0ad;margin:0;line-height:1.8;max-width:750px}.eyebrow{font:700 10px 'Inter',sans-serif;letter-spacing:.12em;color:#ad825a}.orange{color:var(--orange)}.btn-subtle,.btn-primary{border:1px solid #50515e;border-radius:13px;padding:9px 16px;color:#e9e8ef;background:#22232d;font-weight:800;white-space:nowrap;font-size:12px;min-height:42px}.btn-subtle:hover{border-color:var(--orange);color:var(--orange)}.btn-primary{border-color:#e98a13;background:linear-gradient(130deg,#ff9e18,#ff7906);color:#1e1811}.btn-primary:hover{filter:brightness(1.15)}.tabs{display:flex;gap:10px;margin:19px 0 15px}.pill{display:flex;align-items:center;justify-content:center;flex:1;min-height:50px;padding:8px 13px;border-radius:13px;border:1px solid #50515e;color:#c0bec9;background:#262730;white-space:nowrap;font-weight:800;font-size:13px}.pill.active{border-color:#ffb451;background:linear-gradient(125deg,#ffa528,#ff7d08);color:#fff;box-shadow:0 5px 20px #ff7e1126}.wallet-list{display:flex;flex-direction:column;gap:10px}.empty-state{border-radius:15px;border:1px dashed #5c4131;background:linear-gradient(130deg,#22212a,#171821);padding:33px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}.empty-state b{font-size:17px}.empty-state p{max-width:440px;margin:0 0 7px;color:#aaa9b3;font-size:12px;line-height:1.8}.empty-icon{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#ff8b17;color:white;font:800 40px 'Inter',sans-serif}.wallet-card{position:relative;border:1px solid #32343e;border-radius:14px;background:linear-gradient(130deg,#25262f,#1a1c25);overflow:hidden;display:flex;align-items:center;gap:14px;min-height:110px;padding:15px 19px;box-shadow:0 4px 15px #0004}.wallet-card:before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:var(--orange)}.wallet-rank{font:900 27px 'Inter',sans-serif;color:var(--orange);flex:0 0 51px;text-align:center;direction:ltr}.wallet-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:50%;background:#ff8c19;color:white;font:800 32px 'Inter',sans-serif}.wallet-info{flex:1;min-width:0}.wallet-address{direction:ltr;text-align:right;font:700 13px 'Inter',sans-serif;overflow:hidden;text-overflow:ellipsis}.wallet-meta{color:#9c9cac;font-size:11px;margin-top:7px}.wallet-balance{flex:0 0 auto;text-align:left;direction:ltr;display:flex;flex-direction:column;gap:3px;max-width:40%}.wallet-balance strong{font:850 clamp(13px,1.9vw,18px) 'Inter',sans-serif;white-space:nowrap}.wallet-balance small{font:600 11px 'Inter',sans-serif;color:#b2b1bd;white-space:nowrap}.wallet-actions{display:flex;gap:6px}.wallet-actions button{border:1px solid #41424d;background:#272936;color:#d3d5e2;border-radius:7px;width:32px;height:32px}.wallet-actions button:hover{color:var(--orange)}.section-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:#999ba8;margin:12px 3px 0;line-height:1.8}.section-foot a{color:var(--orange);text-decoration:none}
-.network-section,.transactions-section{margin-top:31px}.network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.network-card{border-radius:14px;border:1px solid #30313d;background:linear-gradient(135deg,#1b1d26,#13151c);display:flex;align-items:center;gap:17px;padding:19px;min-height:132px}.metric-icon{width:56px;height:56px;flex:0 0 56px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:900}.amber{background:#ff8d171c;color:#ff931e}.pink{background:#fa496d1a;color:#ff5b7d}.blue{background:#248ff81d;color:#50b9ff}.purple{background:#bc58ec1c;color:#bd76ff}.network-card>div:last-child{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}.metric-label{font-size:11px;color:#c3bdc7}.network-card strong{font:800 clamp(15px,2.4vw,24px) 'Inter',sans-serif;color:#fff;white-space:nowrap}.network-card small{font-size:10px;color:#aca7b0;line-height:1.6}.source-note{font-size:11px;color:#928d9b;margin:12px 3px}.source-note a{color:#d2a170}.tx-list{display:grid;gap:8px}.tx-row{display:flex;align-items:center;gap:11px;justify-content:space-between;border:1px solid #343440;border-radius:12px;padding:14px 16px;background:#1a1c25}.tx-id{font:750 13px 'Inter',sans-serif;color:#ffbd79;text-decoration:none;direction:ltr}.tx-id:hover{text-decoration:underline}.tx-main{display:flex;flex-direction:column;gap:4px;min-width:0}.tx-main small,.tx-right small{color:#a9a6b0;font-size:11px}.tx-right{text-align:left;direction:ltr;white-space:nowrap}.tx-right strong{font:800 14px 'Inter',sans-serif}.skeleton-message{color:#afadb7;border:1px dashed #44434e;border-radius:12px;padding:22px;text-align:center;font-size:13px}.about-section{background:#14151d;border:1px solid #302f3b;border-radius:13px;padding:18px;margin-top:25px}.about-section h2{font-size:17px;margin:0 0 9px}.about-section p{font-size:11px;line-height:2;color:#a8a5b1}.source-pills{display:flex;gap:8px}.source-pills a{padding:6px 10px;border:1px solid #48424b;border-radius:9px;text-decoration:none;font-size:11px;color:#f2b279}
-.result-panel{background:#191b25;border:1px solid #aa6421;border-radius:15px;padding:18px;margin-bottom:23px}.result-body{color:#e6e6ef;font-size:13px;overflow-wrap:anywhere}.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px}.result-detail{padding:12px;background:#242530;border-radius:8px;min-width:0}.result-detail small{display:block;font-size:10px;color:#aaa5b3}.result-detail strong{display:block;font:750 14px 'Inter',sans-serif;overflow-wrap:anywhere;margin-top:4px}.result-action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.result-action-row a{color:#ffb96b}.result-code{font:700 12px 'Inter',sans-serif;direction:ltr;text-align:right;overflow-wrap:anywhere;color:#f3cb9d}.result-status{color:var(--green);font-weight:700}.result-status.pending{color:#ffb86b}
-.menu-panel{position:fixed;right:0;top:0;bottom:0;width:min(320px,87vw);z-index:400;background:#1d1e29;border-left:1px solid #34333e;box-shadow:-10px 0 35px #0008;padding:20px;display:flex;flex-direction:column;gap:9px}.menu-title{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid #44414d;margin-bottom:12px;color:#ffa43b;font:900 20px 'Inter',sans-serif}.close-button{width:36px;height:36px;border:1px solid #50434a;border-radius:8px;background:#292631;color:#fff;font-size:23px;line-height:1}.menu-panel a{padding:12px 14px;background:#292a35;border-radius:9px;text-decoration:none;font-weight:700;font-size:12px}.menu-shade{position:fixed;inset:0;z-index:399;background:#020307ad}.dialog-backdrop{position:fixed;inset:0;background:#010105b8;z-index:501;display:grid;place-items:center;padding:14px}.dialog{width:min(500px,100%);background:#21232d;border:1px solid #794e29;border-radius:18px;padding:23px;box-shadow:0 24px 65px #000b}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.dialog h2{font-size:19px;margin:0}.dialog form{display:flex;flex-direction:column;gap:8px;margin-top:16px}.dialog label{font-weight:750;font-size:12px}.dialog input{height:43px;border-radius:9px;border:1px solid #4d4a54;background:#151722;color:white;padding:9px 12px;outline:none}.dialog input:focus{border-color:#ff9d32}.dialog p{font-size:10px;line-height:1.7;color:#aaa5b0}.dialog-actions{display:flex;gap:8px;margin-top:9px}.dialog-actions button{flex:1}
-.bottom-nav{position:fixed;z-index:300;bottom:0;left:0;right:0;display:flex;align-items:stretch;justify-content:space-around;min-height:70px;padding:7px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:#14151d;box-shadow:0 -4px 15px #0005;border-top:1px solid #30313b;direction:rtl}.bottom-link{display:flex;flex-direction:column;gap:2px;justify-content:center;align-items:center;flex:1;max-width:150px;border:0;background:transparent;color:#b5b4bf;border-radius:10px;font-size:10px}.bottom-link span{font:750 23px 'Inter',sans-serif}.bottom-link b{font-size:11px}.bottom-link.selected{background:linear-gradient(135deg,#442912,#221911);border:1px solid #864515;color:#ff8e27}
-@media(min-width:950px){.content{padding-top:5px}.wallet-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.wallet-card{min-width:0}.bottom-nav{max-width:720px;margin:0 auto;border:1px solid #34343e;border-bottom:0;border-radius:18px 18px 0 0}}
-@media(max-width:650px){.site-header{height:68px;padding:0 11px}.header-side{gap:0}.icon-button{width:37px;height:40px}.icon-button svg{width:22px;height:22px}.brand{font-size:22px}.pulse{width:24px;margin-left:0}.content{padding:0 13px 90px}.status-line{min-height:25px;margin-bottom:8px;font-size:10px}.hero-card{border-radius:15px}.hero-main{grid-template-columns:1fr;gap:9px;padding:18px 15px 0}.hero-price-row{margin-top:7px;gap:12px}.coin-icon{width:61px;height:61px;min-width:61px;font-size:40px}.hero-price{font-size:clamp(25px,6.5vw,36px)}.price-label{font-size:13px}.hero-small-note{font-size:9px;margin-top:11px}.chart-area{margin-top:0}.chart-head{font-size:9px}.sparkline{height:76px;margin-top:3px}.chart-placeholder{font-size:10px}.hero-metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin:9px 8px 0;padding:11px 2px}.mini-metric{padding:0 3px}.mini-metric span{font-size:8px;line-height:1.5}.mini-metric b{font-size:clamp(9px,2.6vw,12px)}.hero-source{padding:7px 9px 10px;font-size:9px}.search-section{margin:16px 0 21px}.search-box{min-height:57px;border-radius:12px}.search-box input{font-size:11px}.search-submit{flex-basis:35px;width:35px;height:40px}.search-hint{font-size:9px;margin-top:6px}.section-head{align-items:flex-start;margin-bottom:11px}.section-head h2{font-size:18px}.section-head p{font-size:10px}.btn-subtle{font-size:10px;padding:7px 9px;min-height:35px}.tabs{gap:6px;margin:12px 0}.pill{min-height:41px;border-radius:10px;padding:7px 3px;font-size:10px}.wallet-card{padding:12px;min-height:96px;gap:8px}.wallet-rank{font-size:20px;flex-basis:35px}.wallet-icon{width:36px;height:36px;flex-basis:36px;font-size:24px}.wallet-address{font-size:10px}.wallet-meta{font-size:9px}.wallet-balance strong{font-size:11px}.wallet-balance small{font-size:9px}.wallet-actions button{width:27px;height:27px}.network-grid{gap:8px}.network-card{min-height:112px;padding:12px 10px;gap:9px}.metric-icon{width:37px;height:37px;flex-basis:37px;font-size:22px}.metric-label{font-size:10px}.network-card strong{font-size:clamp(13px,3vw,17px)}.network-card small{font-size:9px}.tx-row{padding:11px}.tx-id{font-size:11px}.tx-right strong{font-size:11px}.tx-right small{font-size:9px}.result-grid{gap:7px}}
-@media(max-width:365px){.brand{font-size:19px}.site-header{gap:4px}.content{padding:0 10px 90px}.hero-price{font-size:25px}.mini-metric b{font-size:9px}.network-card{gap:6px;padding:10px 8px}.metric-icon{width:32px;height:32px;flex-basis:32px;font-size:18px}.network-card strong{font-size:12px}.wallet-card{gap:5px}.wallet-icon{width:31px;height:31px;flex-basis:31px}.wallet-rank{flex-basis:26px;font-size:17px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-
-</style>
-<link rel="stylesheet" href="./v2.css?v=2">
-  <link rel="stylesheet" href="./v3.css?v=4">
-  <link rel="stylesheet" href="./v4.css?v=2">
-  <title>BTC PULSE | بيتكوين مباشر</title>
-  <script src="./btcpulse-resilience.js?v=1"></script>
+    :root{color-scheme:dark;--bg:#050505;--card:#101010;--orange:#ff8c00;--text:#f5f5f5;--muted:#777;--line:#232323;--green:#31c88a;font-family:"Cairo",sans-serif}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:20px;background:var(--bg)}
+    body{margin:0;background:var(--bg);color:var(--text);font-size:13px;line-height:1.6}
+    button,input,a{-webkit-tap-highlight-color:transparent}
+    button,input{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}a{color:inherit;text-decoration:none}
+    button{color:inherit}button:disabled{cursor:wait;opacity:.65}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+    [hidden]{display:none!important}svg{display:block;flex-shrink:0}.icon{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .app{width:100%;max-width:420px;min-height:100dvh;margin-inline:auto;padding:0 18px calc(105px + env(safe-area-inset-bottom))}
+    .skip{position:fixed;top:-80px;right:16px;background:var(--orange);color:#050505;padding:8px 15px;z-index:10}.skip:focus{top:10px}
+    .header{height:82px;display:flex;align-items:center;justify-content:space-between;direction:ltr}
+    .brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:900;letter-spacing:.5px;line-height:1;white-space:nowrap}.brand em{color:var(--orange);font-style:normal}.brand .icon{width:28px;height:28px;color:var(--orange);stroke-width:2.2}
+    .icon-button{width:38px;height:38px;display:grid;place-items:center;background:transparent;border:1px solid var(--line);border-radius:12px;color:#b9b9b9}
+    .icon-button:hover{color:var(--orange);border-color:#70420e}.header-actions{display:flex;gap:8px}
+    .price-card{background:var(--card);border:1px solid #322313;border-radius:20px;overflow:hidden;padding:19px 17px 0;position:relative}
+    .price-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.coin{display:flex;align-items:center;gap:10px}.bitcoin{display:grid;place-items:center;width:41px;height:41px;border-radius:50%;background:var(--orange);color:#fff;font:bold 31px Arial,sans-serif;transform:rotate(12deg)}
+    .coin-name{font-weight:800;font-size:14px}.ticker{font-size:10px;color:var(--muted);letter-spacing:1px;line-height:1.5}.period{border:1px solid #2a2a2a;border-radius:8px;padding:5px 9px;color:#a5a5a5;font-size:10px;white-space:nowrap}
+    .price{text-align:center;margin:17px 0 4px;font-size:39px;font-weight:900;letter-spacing:-1.4px;line-height:1.4;font-variant-numeric:tabular-nums}
+    .price-change{display:flex;justify-content:center;align-items:center;gap:9px;direction:ltr;font-size:12px}.change-pill{background:#143222;color:var(--green);border-radius:6px;padding:3px 7px;font-weight:800}.change-pill .icon{width:12px;height:12px;display:inline-block;vertical-align:-1px;stroke-width:2.5}.change-amount{color:var(--green);font-weight:700}.change-period{color:#777;font-size:10px;direction:rtl}
+    .chart{width:100%;height:112px;margin:14px 0 0;overflow:visible}.chart-grid{stroke:#25201a;stroke-width:1;stroke-dasharray:3 5}.chart-labels{display:flex;justify-content:space-between;direction:ltr;color:#606060;font-size:9px;margin:2px 0 14px;font-variant-numeric:tabular-nums}
+    .market-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-inline:-17px;padding:15px 7px 16px;border-top:1px solid var(--line);background:#111}.market-stat{text-align:center;padding:0 3px;border-inline-end:1px solid var(--line);min-width:0}.market-stat:last-child{border:0}.market-stat span{display:block;font-size:8px;color:#858585;margin-bottom:6px;white-space:nowrap}.market-stat strong{display:block;font-size:12px;font-weight:800;white-space:nowrap}
+    .price-status{display:flex;align-items:center;justify-content:center;gap:6px;color:#888;font-size:9px;min-height:29px}.status-dot{width:5px;height:5px;border-radius:50%;background:#8b8b8b}.price-status[data-state="live"] .status-dot{background:var(--green)}.price-status[data-state="error"] .status-dot{background:var(--orange)}
+    .search{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin:16px 0 25px;padding:0 13px;min-height:49px}.search:focus-within{border-color:var(--orange)}.search input{width:100%;min-width:0;border:0;outline:none;background:transparent;color:#eee;font-size:11px;text-align:right;padding:13px 0}.search input::placeholder{color:#686868}.search button{display:grid;place-items:center;width:27px;min-width:27px;height:35px;border:0;background:transparent;color:var(--orange)}.search .icon{width:20px;height:20px}
+    .section{scroll-margin-top:18px;margin-top:23px}.section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}.section-title{display:flex;align-items:center;gap:7px}.section-title>.icon{color:var(--orange);width:19px;height:19px}h2{font-size:16px;font-weight:800;margin:0}.eyebrow{font-size:9px;color:#747474;display:block;margin-top:3px}.text-link{color:var(--orange);font-size:10px;white-space:nowrap;background:transparent;border:0;padding:6px 0}.text-link:hover{text-decoration:underline}
+    .wallet-list{display:grid;gap:9px;list-style:none;padding:0;margin:0}.wallet{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 11px;min-height:83px}.rank{width:28px;height:31px;flex:0 0 28px;display:grid;place-items:center;color:var(--orange);background:#ff8c0014;border:1px solid #ff8c0029;border-radius:8px;font-size:14px;font-weight:800}.wallet:nth-child(2) .rank{color:#bcbcbc;background:#bcbcbc0d;border-color:#bcbcbc26}.wallet:nth-child(3) .rank{color:#bd885a;background:#bd885a0d;border-color:#bd885a26}.wallet-main{min-width:0;flex:1}.wallet-address{display:block;font-size:11px;font-weight:700;direction:ltr;text-align:right;color:#d7d7d7;white-space:nowrap}.wallet-caption{font-size:9px;color:#656565;margin-top:5px}.wallet-balance{text-align:left;direction:ltr;white-space:nowrap}.wallet-balance strong{display:block;font-size:12px;font-weight:800}.wallet-balance strong small{font-size:8px;color:var(--orange);font-weight:700}.wallet-share{display:block;font-size:10px;color:#969696;margin-top:5px}.share-bar{width:51px;height:3px;background:#252525;border-radius:4px;display:block;margin:5px 0 0 auto;overflow:hidden}.share-bar i{height:100%;display:block;background:var(--orange);border-radius:4px}
+    .empty{padding:22px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:#999;text-align:center;font-size:12px}.search-message{margin:-13px 0 18px;color:#aaa;font-size:11px;overflow-wrap:anywhere}.search-message a{display:inline-block;color:var(--orange);text-decoration:underline}
+    .network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.network-card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px;min-width:0}.network-top{display:flex;align-items:center;justify-content:space-between;gap:4px}.network-label{color:#939393;font-size:10px}.network-icon{width:27px;height:27px;border-radius:7px;display:grid;place-items:center;background:#ff8c0012;color:var(--orange)}.network-icon .icon{width:16px;height:16px}.network-value{font-size:24px;font-weight:800;direction:ltr;text-align:right;line-height:1.4;margin-top:10px;font-variant-numeric:tabular-nums;letter-spacing:-.5px}.network-footer{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:6px}.network-change{font-size:10px;color:var(--green);font-weight:700}.network-footer small{font-size:8px;color:#626262}.sample-note{color:#626262;font-size:9px;text-align:center;line-height:1.9;margin:16px 8px 0}
+    .bottom-nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:11px 8px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#0c0c0cf5;backdrop-filter:blur(16px);direction:rtl}.nav-item{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;min-height:44px;color:#686868;font-size:9px;background:transparent;border:0;padding:2px;position:relative}.nav-item .icon{width:21px;height:21px}.nav-item[aria-current="page"]{color:var(--orange);font-weight:800}.nav-item[aria-current="page"]::before{content:"";position:absolute;top:-12px;width:24px;height:2px;background:var(--orange);border-radius:0 0 4px 4px}.nav-item:hover{color:var(--orange)}
+    dialog{border:1px solid #37302a;border-radius:18px;background:var(--card);color:var(--text);padding:23px;width:calc(100% - 36px);max-width:370px;max-height:85dvh;overflow:auto}dialog::backdrop{background:#000b;backdrop-filter:blur(4px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px}dialog p{font-size:12px;color:#aaa;line-height:2}dialog a{color:var(--orange)}.dialog-links{display:grid;gap:8px;margin-top:15px}.dialog-links a{padding:11px;background:#191919;border:1px solid var(--line);border-radius:9px;font-size:12px}.dialog-links a:hover{border-color:var(--orange)}.dialog-close{font-size:24px;line-height:1}
+    @media(max-width:360px){.app{padding-inline:12px}.header{height:73px}.brand{font-size:20px;gap:5px}.brand .icon{width:24px}.header-actions{gap:5px}.icon-button{width:34px;height:34px}.price{font-size:34px}.price-card{padding-inline:13px}.market-stats{margin-inline:-13px}.market-stat span{font-size:7px}.market-stat strong{font-size:10px}.wallet{gap:6px;padding-inline:9px}.rank{flex-basis:24px;width:24px}.wallet-address{font-size:10px}.wallet-balance strong{font-size:11px}.network-card{padding:12px}.network-label{font-size:9px}.network-value{font-size:22px}h2{font-size:15px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">انتقل للمحتوى</a>
-  <header class="site-header">
-    <div class="header-side">
-      <button class="icon-button" id="menuBtn" aria-label="القائمة" aria-expanded="false" aria-controls="menuPanel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-      <button class="icon-button" id="topSearchBtn" aria-label="الانتقال للبحث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.6" cy="10.6" r="6.2"/><path d="m15.5 15.5 5 5"/></svg></button>
-    </div>
-    <a class="brand" href="#main" aria-label="BTC PULSE الرئيسية"><span class="brand-btc">BTC</span><span class="brand-pulse">PULSE</span><svg class="pulse" viewBox="0 0 54 21" fill="none"><path d="M0 11h14l5-8 5 16 6-18 5 10h19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <button id="refreshBtn" class="icon-button refresh-button" aria-label="تحديث المعلومات" title="تحديث المعلومات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9a7 7 0 0 1 12-2L20 12M4 12l2.5 5a7 7 0 0 0 12-2"/></svg></button>
-  </header>
-
-  <aside class="menu-panel" id="menuPanel" hidden>
-    <div class="menu-title"><strong>BTC PULSE</strong><button class="close-button" id="closeMenu" aria-label="إغلاق القائمة">×</button></div>
-    <a href="#searchSection" data-closemenu>بحث عن محفظة أو معاملة</a>
-    <a href="#wallets" data-closemenu>المحافظ التي أتابعها</a>
-    <a href="#transactions" data-closemenu>المعاملات المباشرة</a>
-    <a href="#fees" data-closemenu>رسوم الشبكة</a>
-    <a href="#about" data-closemenu>المعلومات والخصوصية</a>
-  </aside>
-  <div class="menu-shade" id="menuShade" hidden></div>
-
-  <main id="main" class="content">
-    <div class="status-line"><span class="live-dot"></span><span id="connectionStatus">جاري الاتصال بمصادر البيانات...</span><span class="status-spacer"></span><span id="lastUpdated" class="last-updated">—</span></div>
-    <section class="hero-card" aria-labelledby="priceTitle">
-      <div class="hero-main">
-        <div class="hero-price-block">
-          <div class="price-label" id="priceTitle">سعر البيتكوين الحالي <span class="muted">BTC / USD</span></div>
-          <div class="hero-price-row"><span class="coin-icon" aria-hidden="true">₿</span><div class="price-stack"><strong class="hero-price" id="btcPrice">—</strong><div class="price-change" id="priceChange"><span class="neutral-pill">تغير 24 ساعة: —</span></div></div></div>
-          <div class="hero-small-note">السعر السوقي لحظي تقريباً، من مصدر بيانات خارجي</div>
-        </div>
-        <div class="chart-area">
-          <div class="chart-head"><span>حركة السعر خلال 24 ساعة</span><span id="chartLabel">⌄ 24 ساعة</span></div>
-          <svg class="sparkline" id="priceChart" viewBox="0 0 440 170" role="img" aria-label="مخطط أسعار البيتكوين خلال آخر 24 ساعة"><defs><linearGradient id="fillChart" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff921b" stop-opacity=".28"/><stop offset="100%" stop-color="#ff921b" stop-opacity="0"/></linearGradient></defs><path id="sparkArea" fill="url(#fillChart)" d=""/><path id="sparkLine" stroke="#ff971a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none" d=""/></svg>
-          <p class="chart-placeholder" id="chartPlaceholder">جاري تحميل الرسم البياني...</p>
-        </div>
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 7a7 7 0 0 1 11.5-1L20 12M4 12l2.4 6A7 7 0 0 0 18 17"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h15V8H5a3 3 0 0 1 0-6"/><path d="M20 11h-6v6h6M16 14h.01"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="m3 6 5 4 4-7 4 7 5-4-3 12H6ZM7 21h10"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-5h14v5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="m5 15 7-7 7 7M12 8v12"/></symbol>
+    <symbol id="i-fee" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+    <symbol id="i-mining" viewBox="0 0 24 24"><path d="m4 20 9-9M9 3l12 12-4 4-3-7-7-3Z"/></symbol>
+    <symbol id="i-transactions" viewBox="0 0 24 24"><path d="M3 7h17l-4-4M21 17H4l4 4M20 7l-4 4M4 17l4-4"/></symbol>
+  </svg>
+  <a class="skip" href="#main">انتقل إلى المحتوى</a>
+  <div class="app" id="home">
+    <header class="header">
+      <a class="brand" href="#home" aria-label="BTC PULSE الرئيسية">BTC <em>PULSE</em><svg class="icon" aria-hidden="true"><use href="#i-pulse"/></svg></a>
+      <div class="header-actions">
+        <button class="icon-button" id="refresh" type="button" aria-label="تحديث سعر البيتكوين" title="تحديث السعر"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg></button>
+        <button class="icon-button" id="menu" type="button" aria-label="فتح القائمة" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
       </div>
-      <div class="hero-metrics">
-        <div class="mini-metric"><span>القيمة السوقية</span><b id="marketCap">—</b></div>
-        <div class="mini-metric"><span>التداول 24 ساعة</span><b id="volume24h">—</b></div>
-        <div class="mini-metric"><span>المعروض المتداول</span><b id="circulatingSupply">—</b></div>
-        <div class="mini-metric"><span>هيمنة البيتكوين</span><b id="btcDominance">—</b></div>
-      </div>
-      <div class="hero-source">المصادر: <a href="https://www.coingecko.com/en/coins/bitcoin" target="_blank" rel="noopener noreferrer">CoinGecko</a> · <a href="https://mempool.space/" target="_blank" rel="noopener noreferrer">mempool.space</a></div>
-    </section>
-
-    <section class="search-section" id="searchSection" aria-label="بحث بيتكوين">
-      <form id="searchForm" class="search-box" role="search">
-        <button type="submit" class="search-submit" aria-label="بحث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.6" cy="10.6" r="6.2"/><path d="m15.5 15.5 5 5"/></svg></button>
-        <input id="searchInput" type="search" autocomplete="off" spellcheck="false" maxlength="110" aria-label="عنوان بيتكوين أو رقم معاملة" placeholder="ابحث عن محفظة، عنوان بيتكوين، أو معاملة...">
+    </header>
+    <main id="main">
+      <section class="price-card" aria-labelledby="price-title">
+        <div class="price-top">
+          <div class="coin"><span class="bitcoin" aria-hidden="true">₿</span><div><div class="coin-name" id="price-title">البيتكوين</div><div class="ticker" dir="ltr">BITCOIN · BTC</div></div></div>
+          <span class="period">آخر 24 ساعة</span>
+        </div>
+        <div class="price" id="btc-price" dir="ltr" aria-label="سعر البيتكوين بالدولار">$67,245.24</div>
+        <div class="price-change"><span class="change-pill"><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg> +2.34%</span><span class="change-amount">+$1,538.42</span><span class="change-period">خلال 24 ساعة</span></div>
+        <svg class="chart" viewBox="0 0 350 112" preserveAspectRatio="none" role="img" aria-label="رسم توضيحي لحركة البيتكوين، وليس بيانات سوق مباشرة">
+          <defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff8c00" stop-opacity=".22"/><stop offset="1" stop-color="#ff8c00" stop-opacity="0"/></linearGradient></defs>
+          <path class="chart-grid" d="M0 25H350M0 58H350M0 91H350"/>
+          <path d="M0 91 9 86 17 90 26 76 34 80 43 68 52 75 61 72 70 83 78 65 87 69 96 56 105 62 114 49 123 57 132 46 141 51 150 67 159 61 168 70 177 57 186 61 195 43 204 48 213 35 222 42 231 28 240 36 249 26 258 40 267 32 276 39 285 23 294 28 303 16 312 24 321 13 330 19 339 9 350 14V112H0Z" fill="url(#chart-fill)"/>
+          <path d="M0 91 9 86 17 90 26 76 34 80 43 68 52 75 61 72 70 83 78 65 87 69 96 56 105 62 114 49 123 57 132 46 141 51 150 67 159 61 168 70 177 57 186 61 195 43 204 48 213 35 222 42 231 28 240 36 249 26 258 40 267 32 276 39 285 23 294 28 303 16 312 24 321 13 330 19 339 9 350 14" fill="none" stroke="#ff8c00" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+          <circle cx="350" cy="14" r="5" fill="#ff8c00" opacity=".15"/><circle cx="350" cy="14" r="2.6" fill="#ff8c00"/>
+        </svg>
+        <div class="chart-labels" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:59</span></div>
+        <div class="market-stats">
+          <div class="market-stat"><span>القيمة السوقية</span><strong dir="ltr">$1.32T</strong></div>
+          <div class="market-stat"><span>حجم التداول 24س</span><strong dir="ltr">$28.61B</strong></div>
+          <div class="market-stat"><span>المعروض المتداول</span><strong dir="ltr">19.71M BTC</strong></div>
+          <div class="market-stat"><span>الهيمنة السوقية</span><strong dir="ltr">54.2%</strong></div>
+        </div>
+      </section>
+      <div class="price-status" id="price-status" data-state="loading" role="status"><span class="status-dot" aria-hidden="true"></span><span id="status-text">جارٍ الاتصال بسعر البيتكوين المباشر…</span></div>
+      <form class="search" id="search" role="search">
+        <button type="submit" aria-label="بحث"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></button>
+        <input id="wallet-search" type="search" aria-label="ابحث عن محفظة أو عنوان بيتكوين" placeholder="ابحث عن محفظة أو عنوان بيتكوين..." autocomplete="off" spellcheck="false" maxlength="110" aria-controls="wallet-list">
       </form>
-      <p class="search-hint">ابحث بعنوان Bitcoin عام أو بمعرّف معاملة (64 حرفاً). لا تدخل كلمات الاسترداد أو المفاتيح السرية أبداً.</p>
-      <div id="searchError" role="alert" class="alert" hidden></div>
-    </section>
-
-    <section class="result-panel" id="resultPanel" hidden aria-live="polite">
-      <div class="section-head"><div><span class="eyebrow">بحث مباشر</span><h2 id="resultTitle">تفاصيل البحث</h2></div><button class="btn-subtle" id="closeResult" type="button">إغلاق ×</button></div>
-      <div class="result-body" id="resultBody"></div>
-    </section>
-
-    <section id="wallets" class="wallets-section" aria-labelledby="walletsTitle">
-      <div class="section-head"><div><span class="eyebrow">BITCOIN / WATCHLIST</span><h2 id="walletsTitle"><span class="orange">♛</span> المحافظ التي تتابعها</h2><p>رتب عناوين بيتكوين العمومية حسب رصيدها الحقيقي. هذا ليس ترتيب أغنى المحافظ في العالم.</p></div><button id="addWalletBtn" class="btn-subtle">+ إضافة عنوان</button></div>
-      <div class="tabs" role="group" aria-label="ترتيب المحافظ"><button class="pill active" data-sort="balance" aria-pressed="true">♛ الأعلى رصيداً</button><button class="pill" data-sort="activity" aria-pressed="false">◫ الأكثر معاملات</button><button class="pill" data-sort="name" aria-pressed="false">≡ الاسم</button></div>
-      <div class="wallet-list" id="walletList"><div class="empty-state"><span class="empty-icon">₿</span><b>أضف أول عنوان للمراقبة</b><p>سنحسب رصيده وعدد معاملاته من بيانات شبكة Bitcoin العامة، بدون ربط أي محفظة.</p><button class="btn-primary" id="emptyAddWallet" type="button">+ تتبع عنوان الآن</button></div></div>
-      <div class="section-foot"><span>تُحفظ العناوين محلياً على هاتفك؛ لا نتحقق من مالك أي عنوان.</span><span id="walletUpdated">—</span></div>
-    </section>
-
-    <section class="network-section" id="fees" aria-labelledby="networkTitle">
-      <div class="section-head"><div><span class="eyebrow">BITCOIN / LIVE NETWORK</span><h2 id="networkTitle"><span class="orange">▥</span> إحصائيات الشبكة المباشرة</h2><p>أحدث الرسوم وحركة المعاملات، مستمدة من مزود البيانات العام.</p></div><button class="btn-subtle" id="refreshNetwork">↻ تحديث</button></div>
-      <div class="network-grid">
-        <article class="network-card"><div class="metric-icon amber">▤</div><div><span class="metric-label">رسوم مرتفعة الأولوية</span><strong id="fastFee">—</strong><small>ساتوشي / وحدة بيانات (sat/vB)</small></div></article>
-        <article class="network-card"><div class="metric-icon pink">◴</div><div><span class="metric-label">المعاملات المعلقة</span><strong id="networkPending">—</strong><small id="networkVsize">حجم الازدحام: —</small></div></article>
-        <article class="network-card"><div class="metric-icon blue">⇄</div><div><span class="metric-label">رسوم اقتصادية</span><strong id="economyFee">—</strong><small>ساتوشي / وحدة بيانات (sat/vB)</small></div></article>
-        <article class="network-card"><div class="metric-icon purple">⌁</div><div><span class="metric-label">تعديل الصعوبة المتوقع</span><strong id="difficultyChange">—</strong><small id="difficultyTime">الوقت المقدر: —</small></div></article>
-      </div>
-      <p class="source-note">الأرقام المعروضة تقديرات من <a href="https://mempool.space/docs/api/rest" target="_blank" rel="noopener noreferrer">mempool.space API</a>؛ قد تتغير أو تتأخر. السعر والإحصائيات لا يشكلان توصية استثمارية.</p>
-    </section>
-
-    <section class="transactions-section" id="transactions" aria-labelledby="transactionsTitle">
-      <div class="section-head"><div><span class="eyebrow">LIVE ACTIVITY</span><h2 id="transactionsTitle"><span class="orange">↔</span> أحدث المعاملات المكتشفة</h2><p>معاملات جديدة رُصدت قبل التأكيد؛ ليست جميع معاملات الشبكة.</p></div><button id="refreshTransactions" class="btn-subtle">↻ تحديث</button></div>
-      <div id="txList" class="tx-list"><div class="skeleton-message">جاري جلب أحدث المعاملات...</div></div>
-      <div class="section-foot"><span>لا تعرض المعاملة بيانات صاحب العنوان أو اسمه الحقيقي.</span><a href="https://mempool.space/mempool" target="_blank" rel="noopener noreferrer">عرض المصدر ↗</a></div>
-    </section>
-    <section id="about" class="about-section"><h2>معلومات مهمة</h2><p>BTC PULSE لوحة معلومات مجانية للقراءة فقط. لا تُرسل منها عملات ولا تضع فيها مفاتيح المحفظة أو كلمات الاسترداد. البيانات العامة تُطلب مباشرة من خدمات خارجية، وقد تتوقف مؤقتاً بسبب الاتصال أو حدود الاستخدام.</p><p>لا يمكن استنتاج ترتيب أغنى الأشخاص من أرصدة العناوين وحدها، لأن الشخص قد يملك عدة عناوين، والعنوان قد يكون تابعاً لمؤسسة أو خدمة.</p><div class="source-pills"><a href="https://mempool.space/docs/api/rest" target="_blank" rel="noopener noreferrer">Bitcoin API ↗</a><a href="https://docs.coingecko.com/" target="_blank" rel="noopener noreferrer">Market data ↗</a></div></section>
-  </main>
-
-  <div class="dialog-backdrop" id="walletDialog" hidden>
-    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-      <div class="dialog-head"><h2 id="dialogTitle">متابعة عنوان Bitcoin</h2><button id="cancelWallet" class="close-button" aria-label="إغلاق">×</button></div>
-      <form id="walletForm"><label for="walletAddress">العنوان العمومي</label><input type="text" id="walletAddress" maxlength="110" dir="ltr" autocomplete="off" spellcheck="false" placeholder="bc1q..." required><label for="walletLabel">اسم للتمييز (اختياري)</label><input id="walletLabel" maxlength="32" autocomplete="off" placeholder="محفظة 1"><p>عنوان عام فقط، بدون ربط المحفظة. ستُرسل العناوين العمومية إلى mempool.space لجلب الرصيد.</p><div id="walletDialogError" class="form-error" role="alert"></div><div class="dialog-actions"><button type="button" id="dialogCancel" class="btn-subtle">إلغاء</button><button type="submit" class="btn-primary" id="saveWallet">حفظ ومتابعة</button></div></form>
-    </section>
+      <p id="search-message" class="search-message" role="status" hidden></p>
+      <section class="section" id="wallets" aria-labelledby="wallets-title">
+        <div class="section-heading"><div><div class="section-title"><svg class="icon" aria-hidden="true"><use href="#i-crown"/></svg><h2 id="wallets-title">كبار حاملي البيتكوين</h2></div><span class="eyebrow">أكبر المحافظ حسب رصيد BTC</span></div><button type="button" class="text-link" id="reset-wallets">عرض الكل ←</button></div>
+        <ol class="wallet-list" id="wallet-list">
+          <li class="wallet" data-search="bc1qxy2k...9p72 248597.32 248,597.32 1.26"><span class="rank" aria-label="المركز الأول">1</span><div class="wallet-main"><bdi class="wallet-address">bc1qxy2k...9p72</bdi><div class="wallet-caption">محفظة بيتكوين</div></div><div class="wallet-balance"><strong>248,597.32 <small>BTC</small></strong><span class="wallet-share">1.26%</span><span class="share-bar" aria-hidden="true"><i style="width:90%"></i></span></div></li>
+          <li class="wallet" data-search="bc1qgd9r...4x83 164203.18 164,203.18 0.84"><span class="rank" aria-label="المركز الثاني">2</span><div class="wallet-main"><bdi class="wallet-address">bc1qgd9r...4x83</bdi><div class="wallet-caption">محفظة بيتكوين</div></div><div class="wallet-balance"><strong>164,203.18 <small>BTC</small></strong><span class="wallet-share">0.84%</span><span class="share-bar" aria-hidden="true"><i style="width:60%"></i></span></div></li>
+          <li class="wallet" data-search="bc1q7a3m...8k56 100384.62 100,384.62 0.51"><span class="rank" aria-label="المركز الثالث">3</span><div class="wallet-main"><bdi class="wallet-address">bc1q7a3m...8k56</bdi><div class="wallet-caption">محفظة بيتكوين</div></div><div class="wallet-balance"><strong>100,384.62 <small>BTC</small></strong><span class="wallet-share">0.51%</span><span class="share-bar" aria-hidden="true"><i style="width:36%"></i></span></div></li>
+        </ol>
+        <p class="empty" id="empty-wallets" hidden>لا توجد محافظ مطابقة لبحثك.</p>
+      </section>
+      <section class="section" id="network" aria-labelledby="network-title">
+        <div class="section-heading"><div class="section-title"><svg class="icon" aria-hidden="true"><use href="#i-network"/></svg><h2 id="network-title">إحصائيات الشبكة</h2></div><span class="eyebrow">خلال 24 ساعة</span></div>
+        <div class="network-grid">
+          <article class="network-card"><div class="network-top"><span class="network-label">ازدحام الشبكة</span><span class="network-icon"><svg class="icon" aria-hidden="true"><use href="#i-pulse"/></svg></span></div><div class="network-value">18%</div><div class="network-footer"><span class="network-change" dir="ltr">↘ −6%</span><small>مقارنة بالأمس</small></div></article>
+          <article class="network-card"><div class="network-top"><span class="network-label">متوسط الرسوم</span><span class="network-icon"><svg class="icon" aria-hidden="true"><use href="#i-fee"/></svg></span></div><div class="network-value">$1.35</div><div class="network-footer"><span class="network-change" dir="ltr">↘ −12.5%</span><small>لكل معاملة</small></div></article>
+          <article class="network-card"><div class="network-top"><span class="network-label">صعوبة التعدين</span><span class="network-icon"><svg class="icon" aria-hidden="true"><use href="#i-mining"/></svg></span></div><div class="network-value">83.95T</div><div class="network-footer"><span class="network-change" dir="ltr">↗ +1.8%</span><small>آخر تعديل</small></div></article>
+          <article class="network-card"><div class="network-top"><span class="network-label">عدد المعاملات</span><span class="network-icon"><svg class="icon" aria-hidden="true"><use href="#i-transactions"/></svg></span></div><div class="network-value">512,438</div><div class="network-footer"><span class="network-change" dir="ltr">↗ +7.3%</span><small>معاملة / 24 ساعة</small></div></article>
+        </div>
+      </section>
+      <p class="sample-note">السعر يُحدّث كل 30 ثانية من CoinGecko عند توفر الاتصال.<br>الرسم والإحصائيات والمحافظ بيانات توضيحية وفق التصميم.</p>
+    </main>
   </div>
-
   <nav class="bottom-nav" aria-label="التنقل الرئيسي">
-    <button class="bottom-link selected" data-target="main"><span>⌂</span><b>الرئيسية</b></button>
-    <button class="bottom-link" data-target="transactions"><span>⇄</span><b>المعاملات</b></button>
-    <button class="bottom-link" data-target="wallets"><span>▣</span><b>المحافظ</b></button>
-    <button class="bottom-link" data-target="fees"><span>٪</span><b>الرسوم</b></button>
-    <button class="bottom-link" data-target="about"><span>•••</span><b>المزيد</b></button>
+    <a class="nav-item" href="#home" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg><span>الرئيسية</span></a>
+    <a class="nav-item" href="#wallets"><svg class="icon" aria-hidden="true"><use href="#i-wallet"/></svg><span>المحافظ</span></a>
+    <a class="nav-item" href="#search"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><span>البحث</span></a>
+    <a class="nav-item" href="#network"><svg class="icon" aria-hidden="true"><use href="#i-network"/></svg><span>الشبكة</span></a>
+    <button class="nav-item" id="about-button" type="button" aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>المزيد</span></button>
   </nav>
+  <dialog id="about" aria-labelledby="about-title">
+    <div class="dialog-head"><h2 id="about-title">حول <bdi>BTC PULSE</bdi></h2><button class="icon-button dialog-close" type="button" aria-label="إغلاق">×</button></div>
+    <p>نبض البيتكوين، بواجهة عربية. نعرض سعر BTC بالدولار من CoinGecko كل 30 ثانية. عند تعذر الاتصال، يبقى آخر سعر ظاهر مع توضيح حالته.</p>
+    <p>الرسم البياني ونسب التغير وإحصائيات السوق والشبكة وأرصدة المحافظ هي القيم التوضيحية المطلوبة في التصميم، ولا يتم تحديثها مباشرة. العناوين المختصرة للعرض فقط.</p>
+    <div class="dialog-links"><a href="#home" data-close>الرئيسية</a><a href="#wallets" data-close>كبار حاملي البيتكوين</a><a href="#network" data-close>إحصائيات الشبكة</a><a href="https://www.coingecko.com/en/coins/bitcoin" target="_blank" rel="noopener noreferrer">مصدر السعر · CoinGecko ↗</a><a href="https://mempool.space/" target="_blank" rel="noopener noreferrer">مستكشف شبكة البيتكوين ↗</a></div>
+  </dialog>
   <script>
-/* BTC PULSE: deterministic parsing/formatting only; reusable by node tests. */
-(function(root){
-  'use strict';
-  const MAX_WALLETS=12;
-  const satToBtc = n => Number.isSafeInteger(n) && n>=0 ? n/1e8 : null;
-  const isTxid = text => typeof text==='string' && /^[a-f0-9]{64}$/i.test(text);
-  const isAddressCandidate = text => typeof text==='string' && /^(bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/i.test(text);
-  function balanceOf(v){
-    if (!v || !v.chain_stats) return null;
-    const c=v.chain_stats,m=v.mempool_stats||{};
-    const conf=c.funded_txo_sum-c.spent_txo_sum;
-    const pending=(m.funded_txo_sum||0)-(m.spent_txo_sum||0);
-    if (!Number.isSafeInteger(conf)||!Number.isSafeInteger(pending)||conf<0) return null;
-    return {confirmedSats:conf,pendingDeltaSats:pending,estimatedSats:conf+pending,txCount:c.tx_count||0};
-  }
-  function normalizeMempoolPrice(payload){
-    const value=payload?.USD;
-    const stamp=payload?.time;
-    return typeof value==='number'&&Number.isFinite(value)&&value>0 ? {usd:value,time:Number.isFinite(stamp)?stamp*1000:null,source:'mempool.space'}:null;
-  }
-  function normalizeCgPrice(payload){
-    const item=payload?.bitcoin;
-    if(!item || !Number.isFinite(item.usd)||item.usd<=0)return null;
-    return {usd:item.usd,dayChange:Number.isFinite(item.usd_24h_change)?item.usd_24h_change:null,
-      marketCap:Number.isFinite(item.usd_market_cap)&&item.usd_market_cap>=0?item.usd_market_cap:null,
-      volume24h:Number.isFinite(item.usd_24h_vol)&&item.usd_24h_vol>=0?item.usd_24h_vol:null,source:'CoinGecko'};
-  }
-  function normalizeFees(v){
-    if(!v)return null;
-    const high=v.fastestFee, economy=v.economyFee, half=v.halfHourFee;
-    if (![high,economy,half].every(x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<1000000))return null;
-    return {high,economy,half};
-  }
-  function normalizeMempool(v){
-    if(!v||!Number.isSafeInteger(v.count)||v.count<0||!Number.isFinite(v.vsize)||v.vsize<0)return null;
-    return {count:v.count,vsize:v.vsize};
-  }
-  function normalizeDifficulty(v){
-    if(!v||!Number.isFinite(v.difficultyChange)||Math.abs(v.difficultyChange)>1000)return null;
-    return {change:v.difficultyChange,remaining:Number.isFinite(v.remainingBlocks)?v.remainingBlocks:null,
-      time:Number.isFinite(v.estimatedRetargetDate)?v.estimatedRetargetDate:null};
-  }
-  function normalizeRecent(v){
-    if(!Array.isArray(v))return [];
-    return v.filter(x=>isTxid(x?.txid)&&Number.isSafeInteger(x.fee)&&x.fee>=0&&Number.isFinite(x.vsize)&&x.vsize>0&&Number.isSafeInteger(x.value)&&x.value>=0).slice(0,10)
-      .map(x=>({txid:x.txid,fee:x.fee,vsize:x.vsize,value:x.value,feeRate:x.fee/x.vsize}));
-  }
-  function formatBtc(sats,digits=8){
-    const n=satToBtc(sats);
-    return n===null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:digits,minimumFractionDigits:0}).format(n)+' BTC';
-  }
-  function formatUsd(value,digits=2){
-    return typeof value==='number'&&Number.isFinite(value)&&value>=0 ? new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:digits,maximumFractionDigits:digits}).format(value):'—';
-  }
-  function formatCompactUsd(value){
-    return typeof value==='number'&&Number.isFinite(value)&&value>=0?'$'+new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:2}).format(value):'—';
-  }
-  function shortId(str){return typeof str==='string'&&str.length>22?str.slice(0,10)+'…'+str.slice(-8):str}
-  const output=Object.freeze({MAX_WALLETS,satToBtc,isTxid,isAddressCandidate,balanceOf,normalizeMempoolPrice,
-    normalizeCgPrice,normalizeFees,normalizeMempool,normalizeDifficulty,normalizeRecent,formatBtc,formatUsd,formatCompactUsd,shortId});
-  if(typeof module!=='undefined'&&module.exports)module.exports=output;
-  else root.BtcPulseCore=output;
-})(typeof window==='undefined'?globalThis:window);
+    (() => {
+      'use strict';
+      const PRICE_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd';
+      const price = document.getElementById('btc-price');
+      const status = document.getElementById('price-status');
+      const statusText = document.getElementById('status-text');
+      const refreshButton = document.getElementById('refresh');
+      const currency = new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', minimumFractionDigits:2, maximumFractionDigits:2});
+      let inFlight = false, lastSuccess = 0;
+      async function updatePrice() {
+        if (inFlight) return;
+        inFlight = true;
+        refreshButton.disabled = true;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        try {
+          const response = await fetch(PRICE_URL, {signal:controller.signal, cache:'no-store', headers:{Accept:'application/json'}});
+          if (!response.ok) throw new Error('Price request failed');
+          const data = await response.json();
+          const value = data?.bitcoin?.usd;
+          if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) throw new Error('Invalid Bitcoin price');
+          price.textContent = currency.format(value);
+          lastSuccess = Date.now();
+          status.dataset.state = 'live';
+          statusText.textContent = 'سعر مباشر · آخر تحديث ' + new Date(lastSuccess).toLocaleTimeString('ar', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        } catch {
+          status.dataset.state = 'error';
+          statusText.textContent = lastSuccess ? 'تعذر التحديث · آخر سعر محفوظ عند ' + new Date(lastSuccess).toLocaleTimeString('ar', {hour:'2-digit',minute:'2-digit'}) : 'تعذر الاتصال · السعر المعروض توضيحي';
+        } finally {
+          clearTimeout(timeout);
+          inFlight = false;
+          refreshButton.disabled = false;
+        }
+      }
+      refreshButton.addEventListener('click', updatePrice);
+      updatePrice();
+      setInterval(updatePrice, 30000);
+      window.addEventListener('online', updatePrice);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastSuccess >= 30000) updatePrice(); });
 
-</script>
-  <script>
-(function(){
- 'use strict';
- const C=window.BtcPulseCore;
- if(!C)return;
- const DATA=window.BtcPulseResilience;
- const $=id=>document.getElementById(id);
- const API='https://mempool.space/api',CG='https://api.coingecko.com/api/v3';
- const LS_KEY='btcpulse.public.watch.v1';
- const state={price:null,watch:[],sort:'balance',balances:new Map(),walletFetch:0,lastFeed:0};
- let searchBusy=false,updateBusy=false;
- const signal={};
- const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
- const number=(n,d=0)=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:d,minimumFractionDigits:0}).format(n):'—';
- const apiFetch=async(url,{timeout=9000}={})=>{
-   // The same Esplora API contract is available from an independent provider.
-   // Search results can fall back to a last known public address response too.
-   if(DATA&&url.startsWith(API+'/address/')){
-     const response=await DATA.request(url.slice(API.length));
-     return response.data;
-   }
-   const control=new AbortController(),timer=setTimeout(()=>control.abort(),timeout);
-   try{
-     const r=await fetch(url,{method:'GET',mode:'cors',credentials:'omit',cache:'no-store',headers:{Accept:'application/json'},signal:control.signal});
-     if(!r.ok){const err=new Error('HTTP '+r.status);err.httpStatus=r.status;throw err}
-     return await r.json();
-   }finally{clearTimeout(timer)}
- };
- const status=(msg,success,stamp=false)=>{
-   $('connectionStatus').textContent=msg;
-   const dot=document.querySelector('.live-dot');dot.classList.toggle('is-live',success);dot.classList.toggle('is-error',!success);
-   if(stamp)$('lastUpdated').textContent='آخر تحديث '+new Date().toLocaleTimeString('ar-MA',{hour:'2-digit',minute:'2-digit'});
- };
- const showError=(node,message)=>{node.hidden=!message;node.textContent=message};
- function renderPrice(p){
-   if(!p)return;
-   state.price=p;
-   $('btcPrice').textContent=C.formatUsd(p.usd);
-   $('marketCap').textContent=C.formatCompactUsd(p.marketCap);
-   $('volume24h').textContent=C.formatCompactUsd(p.volume24h);
-   $('priceChange').replaceChildren();
-   if(typeof p.dayChange==='number'){
-     const pill=el('span','change-pill'+(p.dayChange<0?' negative':''),(p.dayChange>0?'+':'')+p.dayChange.toFixed(2)+'% '+(p.dayChange>=0?'▲':'▼'));
-     $('priceChange').append(pill);
-     const previous=p.usd/(1+p.dayChange/100);
-     if(Number.isFinite(previous)&&previous>0){const delta=p.usd-previous; $('priceChange').append(el('span','daily-amount',(delta>=0?'+':'−')+C.formatUsd(Math.abs(delta))));}
-   }else $('priceChange').append(el('span','neutral-pill','تغير 24 ساعة: —'));
-   renderWallets();
- }
- function renderChart(points){
-   const values=Array.isArray(points)?points.filter(x=>Array.isArray(x)&&Number.isFinite(x[0])&&Number.isFinite(x[1])):[];
-   if(values.length<5){$('chartPlaceholder').textContent='الرسم البياني غير متاح حالياً';return}
-   const min=Math.min(...values.map(x=>x[1])),max=Math.max(...values.map(x=>x[1]));
-   const minX=values[0][0],maxX=values[values.length-1][0];
-   if(maxX<=minX){$('chartPlaceholder').textContent='الرسم البياني غير متاح حالياً';return}
-   const dx=max-min||1;
-   const coords=values.map(([t,v])=>[15+410*(t-minX)/(maxX-minX),145-115*(v-min)/dx]);
-   const path=coords.map(([x,y],i)=>(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)).join(' ');
-   $('sparkLine').setAttribute('d',path);
-   $('sparkArea').setAttribute('d',path+' L'+coords.at(-1)[0].toFixed(1)+' 166 L'+coords[0][0].toFixed(1)+' 166 Z');
-   $('chartPlaceholder').hidden=true;
- }
- async function fetchPrice(){
-   // Prefer aggregated market data, fall back to a second public aggregate.
-   const cgUrl=CG+'/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_market_cap=true&include_24hr_vol=true';
-   try{
-     const cg=C.normalizeCgPrice(await apiFetch(cgUrl,{timeout:6500}));
-     if(!cg)throw Error('Invalid CoinGecko values');
-     renderPrice(cg);return true;
-   }catch{}
-   try{
-     const raw=await apiFetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin?quotes=USD',{timeout:8000});
-     const q=raw?.quotes?.USD,usd=q?.price;
-     if(!Number.isFinite(usd)||usd<=0)throw Error('Invalid CoinPaprika USD price');
-     renderPrice({
-       usd,
-       dayChange:Number.isFinite(q.percent_change_24h)?q.percent_change_24h:null,
-       marketCap:Number.isFinite(q.market_cap)&&q.market_cap>0?q.market_cap:null,
-       volume24h:Number.isFinite(q.volume_24h)&&q.volume_24h>=0?q.volume_24h:null
-     });
-     return true;
-   }catch{}
-   try{
-     const mem=C.normalizeMempoolPrice(await apiFetch(API+'/v1/prices',{timeout:8500}));
-     if(!mem)throw Error('Invalid mempool BTC USD value');
-     renderPrice(mem);return true;
-   }catch{return false}
- }
- async function fetchMarketChart(){
-   const placeholder=$('chartPlaceholder'),label=$('chartLabel');
-   try{
-     const raw=await apiFetch(CG+'/coins/bitcoin/market_chart?vs_currency=usd&days=1',{timeout:8500});
-     if(!Array.isArray(raw?.prices)||raw.prices.length<5)throw Error('Empty CoinGecko chart');
-     renderChart(raw.prices);
-     label.textContent='24 ساعة · CoinGecko';
-     return true;
-   }catch{}
-   // Kraken publishes public exchange OHLC candles; do not pretend they are
-   // an aggregated market-wide price history.
-   try{
-     const raw=await apiFetch('https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=15',{timeout:8500});
-     if(raw?.error?.length)throw Error('Kraken returned errors');
-     const candles=Object.entries(raw?.result||{}).find(([key,value])=>key!=='last'&&Array.isArray(value))?.[1];
-     const latest=Date.now(),lower=latest-26*3600000;
-     const points=(candles||[]).map(row=>[Number(row[0])*1000,Number(row[4])])
-       .filter(([stamp,close])=>Number.isFinite(stamp)&&Number.isFinite(close)&&close>0&&stamp>=lower&&stamp<=latest+900000).slice(-97);
-     if(points.length<5)throw Error('No recent Kraken candles');
-     renderChart(points);
-     label.textContent='24 ساعة · Kraken BTC/USD';
-     return true;
-   }catch{}
-   try{
-     const rows=await apiFetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=96',{timeout:8500});
-     const now=Date.now();
-     const points=(Array.isArray(rows)?rows:[]).map(row=>[Number(row[0]),Number(row[4])])
-       .filter(([stamp,close])=>Number.isFinite(stamp)&&Number.isFinite(close)&&close>0&&stamp>=now-26*3600000&&stamp<=now+900000);
-     if(points.length<5)throw Error('No recent BTC/USDT candles');
-     renderChart(points);
-     label.textContent='24 ساعة · Binance BTC/USDT';
-     return true;
-   }catch{
-     placeholder.hidden=false;
-     placeholder.textContent='الرسم البياني غير متاح مؤقتاً · حاول التحديث';
-     label.textContent='24 ساعة · غير متاح';
-     return false;
-   }
- }
- async function fetchNetwork(){
-   const specs=[
-     {kind:'fees',path:'/v1/fees/recommended'},
-     {kind:'pending',path:'/mempool'},
-     {kind:'diff',path:'/v1/difficulty-adjustment'}
-   ];
-   const results=await Promise.allSettled(specs.map(async spec=>{
-     if(DATA)return {kind:spec.kind,result:await DATA.request(spec.path)};
-     const result=await apiFetch(API+spec.path);
-     return {kind:spec.kind,result:{data:result,stale:false,source:'mempool.space',savedAt:Date.now()}};
-   }));
-   let valid=0,stale=[],fresh=[],failed=0;
-   for(const outcome of results){
-     if(outcome.status!=='fulfilled'){failed++;continue}
-     const {kind,result}=outcome.value,payload=result.data;
-     if(kind==='fees'){
-       const v=C.normalizeFees(payload);if(!v){failed++;continue}
-       valid++;
-       $('fastFee').textContent=number(v.high,1)+' sat/vB';
-       $('economyFee').textContent=number(v.economy,1)+' sat/vB';
-       if($('feeHint'))$('feeHint').textContent=number(v.half,1)+' sat/vB';
-     }
-     if(kind==='pending'){
-       const v=C.normalizeMempool(payload);if(!v){failed++;continue}
-       valid++;
-       $('networkPending').textContent=number(v.count);
-       if($('pendingCount'))$('pendingCount').textContent=number(v.count);
-       $('networkVsize').textContent='حجم البيانات: '+number(v.vsize/1e6,1)+' MB';
-     }
-     if(kind==='diff'){
-       const v=C.normalizeDifficulty(payload);if(!v){failed++;continue}
-       valid++;
-       $('difficultyChange').textContent=(v.change>0?'+':'')+number(v.change,2)+'%';
-       $('difficultyTime').textContent=v.time?'متوقع: '+new Date(v.time).toLocaleDateString('ar-MA'):'موعد التعديل غير متوفر';
-     }
-     if(result.stale)stale.push(result.savedAt);
-     else fresh.push(result.source);
-   }
-   // Distinguish cached older values from verified current responses.
-   const section=document.getElementById('fees');
-   const caption=section?.querySelector('#networkSourceStatus')||(()=>{
-     if(!section)return null;
-     const e=el('p','','');e.id='networkSourceStatus';e.setAttribute('role','status');
-     section.querySelector('.section-head')?.append(e);return e;
-   })();
-   if(caption){
-     if(stale.length){
-       const recent=Math.max(...stale);
-       caption.textContent='⚠ بعض الأرقام محفوظة من '+(DATA?DATA.asArabicDate(recent):'تحديث سابق')+' وليست مباشرة'
-         +(failed?' · بعض البيانات غير متاحة':'');
-       caption.style.color='#ffc18a';
-     }else if(fresh.length){
-       caption.textContent='● بيانات من '+[...new Set(fresh)].join(' و ')+(failed?' · بعض البيانات غير متاحة':'');
-       caption.style.color='#a7e0c0';
-     }else{
-       caption.textContent='تعذّر الاتصال بمصادر الشبكة؛ لم يتم عرض قيم غير مؤكدة';
-       caption.style.color='#ffc18a';
-     }
-   }
-   // Cached values remain visible but never claim a successful live connection.
-   return fresh.length>0;
- }
- async function fetchRecent(){
-   try{
-     const response=DATA?await DATA.request('/mempool/recent'):{
-       data:await apiFetch(API+'/mempool/recent'),stale:false,source:'mempool.space'
-     };
-     const list=C.normalizeRecent(response.data);
-     const box=$('txList');box.replaceChildren();
-     if(response.stale)box.append(el('div','skeleton-message','⚠ معاملات من آخر تحديث محفوظ · '+(DATA?DATA.asArabicDate(response.savedAt):'')));
-     if(!list.length){box.append(el('div','skeleton-message','لا تتوفر معاملات جديدة حالياً. حاول لاحقاً.'));return false}
-     for(const tx of list){
-       const row=el('div','tx-row'),main=el('div','tx-main'),details=el('div','tx-right');
-       const a=el('a','tx-id',C.shortId(tx.txid));a.href='https://mempool.space/tx/'+encodeURIComponent(tx.txid);a.target='_blank';a.rel='noopener noreferrer';
-       main.append(a,el('small','',response.stale?'معاملة من بيانات محفوظة':'معاملة رُصدت حديثاً'));
-       details.append(el('strong','',C.formatBtc(tx.value,6)),el('small','','رسوم '+number(tx.feeRate,1)+' sat/vB'));
-       row.append(main,details);box.append(row);
-     }
-     state.lastFeed=response.savedAt||Date.now();return !response.stale;
-   }catch{
-     $('txList').replaceChildren(el('div','skeleton-message','تعذّر جلب المعاملات الجديدة؛ المصدران غير متاحين مؤقتاً.'));
-     return false;
-   }
- }
- async function updateAll(withChart=false){
-   if(updateBusy)return;
-   updateBusy=true;$('refreshBtn').disabled=true;
-   status('جارٍ الاتصال بمصادر بيانات بيتكوين...',false);
-   try{
-     const tasks=[fetchPrice(),fetchNetwork(),fetchRecent()];
-     if(withChart||!$('sparkLine').getAttribute('d'))tasks.push(fetchMarketChart());
-     const results=await Promise.allSettled(tasks);
-     const connected=results.slice(0,3).some(x=>x.status==='fulfilled'&&x.value===true);
-     status(connected?'متصل بمصادر البيانات المباشرة':'لا يمكن الاتصال بالمصادر حالياً',connected,true);
-   }finally{updateBusy=false;$('refreshBtn').disabled=false}
- }
- const sanitizeLabel=s=>String(s||'').replace(/[\u0000-\u001F<>]/g,'').trim().slice(0,32);
- function loadWatch(){
-   try{
-     const v=JSON.parse(localStorage.getItem(LS_KEY)||'[]');
-     if(Array.isArray(v))state.watch=v.filter(x=>x&&C.isAddressCandidate(x.address)).slice(0,C.MAX_WALLETS).map(x=>({address:x.address,label:sanitizeLabel(x.label)}));
-   }catch{state.watch=[]}
- }
- function saveWatch(){try{localStorage.setItem(LS_KEY,JSON.stringify(state.watch))}catch{showError($('searchError'),'تعذّر الحفظ على هذا المتصفح. مساحة التخزين قد تكون ممتلئة.') }}
- async function validateAddress(address){
-   if(!C.isAddressCandidate(address))return false;
-   try{
-     const result=await apiFetch(API+'/v1/validate-address/'+encodeURIComponent(address));
-     return result?.isvalid===true&&result?.address===address;
-   }catch{
-     // Blockstream's Esplora address endpoint can verify a public address
-     // even when mempool.space's validation-specific route is unreachable.
-     if(!DATA)return false;
-     try{
-       const response=await DATA.request('/address/'+encodeURIComponent(address));
-       return Boolean(C.balanceOf(response.data));
-     }catch{return false}
-   }
- }
- async function fetchBalance(address,force=false){
-   const old=state.balances.get(address);
-   if(!force&&old&&!old.error&&Date.now()-old.at<180000)return old;
-   try{
-     const response=DATA?await DATA.request('/address/'+encodeURIComponent(address),{force}):{
-       data:await apiFetch(API+'/address/'+encodeURIComponent(address)),savedAt:Date.now(),stale:false,source:'mempool.space'
-     };
-     const result=C.balanceOf(response.data);
-     if(!result)throw Error('Invalid public address balance');
-     const x={...result,at:response.savedAt||Date.now(),source:response.source,
-       error:Boolean(response.stale),stale:Boolean(response.stale)};
-     state.balances.set(address,x);return x;
-   }catch{
-     // Never present failed live updates as fresh data.
-     const stale=old?{...old,error:true,stale:true}:{error:true,stale:true};
-     state.balances.set(address,stale);return stale;
-   }
- }
- function walletSort(items){
-   if(state.sort==='balance')items.sort((a,b)=>(b.data?.confirmedSats??-1)-(a.data?.confirmedSats??-1));
-   else if(state.sort==='activity')items.sort((a,b)=>(b.data?.txCount??-1)-(a.data?.txCount??-1));
-   else items.sort((a,b)=>a.label.localeCompare(b.label,'ar'));
-   return items;
- }
- function renderWallets(){
-   const host=$('walletList');host.replaceChildren();
-   if(!state.watch.length){
-     const empty=el('div','empty-state'),coin=el('span','empty-icon','₿');
-     const b=el('b','','أضف أول عنوان للمراقبة');const p=el('p','','سنحسب رصيده وعدد معاملاته من بيانات شبكة Bitcoin العامة، بدون ربط أي محفظة.');
-     const add=el('button','btn-primary','+ تتبع عنوان الآن');add.type='button';add.addEventListener('click',openDialog);
-     empty.append(coin,b,p,add);host.append(empty);$('walletUpdated').textContent='—';return;
-   }
-   const sorted=walletSort(state.watch.map(x=>({...x,data:state.balances.get(x.address)})));
-   for(const [i,item] of sorted.entries()){
-     const card=el('article','wallet-card'),rank=el('span','wallet-rank','#'+(i+1)),icon=el('span','wallet-icon','₿');
-     const info=el('div','wallet-info');info.append(el('div','wallet-address',C.shortId(item.address)),el('div','wallet-meta',item.label||'عنوان عام غير موثّق'));
-     const balance=el('div','wallet-balance');const sats=item.data?.confirmedSats;
-     balance.append(el('strong','',Number.isSafeInteger(sats)?C.formatBtc(sats):'— BTC'));
-     balance.append(el('small','',item.data?.error?(Number.isSafeInteger(sats)?'⚠ آخر رصيد محفوظ '+(DATA?DATA.asArabicDate(item.data.at):''):'تعذّر تحديث الرصيد'):Number.isSafeInteger(sats)?'رصيد مؤكد · '+(item.data.source||'شبكة بيتكوين'):'جاري جلب الرصيد'));
-     if(state.price&&Number.isSafeInteger(sats))balance.append(el('small','',C.formatUsd(sats/1e8*state.price.usd)));
-     const actions=el('div','wallet-actions');const search=el('button','','⌕');search.type='button';search.title='عرض تفاصيل العنوان';search.setAttribute('aria-label','عرض تفاصيل '+item.address);search.addEventListener('click',()=>searchAddress(item.address));
-     const remove=el('button','','×');remove.type='button';remove.title='حذف من المتابعة';remove.setAttribute('aria-label','إزالة '+item.address);remove.addEventListener('click',()=>{state.watch=state.watch.filter(x=>x.address!==item.address);state.balances.delete(item.address);saveWatch();renderWallets()});
-     actions.append(search,remove);card.append(rank,icon,info,balance,actions);host.append(card);
-   }
-   $('walletUpdated').textContent='متابعة '+state.watch.length+' / '+C.MAX_WALLETS+' عنوان';
- }
- async function updateWallets(force=false){
-   if(!state.watch.length)return renderWallets();
-   const version=++state.walletFetch;
-   renderWallets();
-   // Low request volume: max 12 addresses; resolve 3 at a time.
-   for(let i=0;i<state.watch.length;i+=3){
-     await Promise.all(state.watch.slice(i,i+3).map(x=>fetchBalance(x.address,force)));
-     if(version!==state.walletFetch)return;
-     renderWallets();
-   }
- }
- function openDialog(prefill=''){
-   $('walletDialog').hidden=false;$('walletAddress').value=prefill;$('walletLabel').value='';$('walletDialogError').textContent='';
-   document.body.style.overflow='hidden';$('walletAddress').focus();
- }
- function closeDialog(){$('walletDialog').hidden=true;document.body.style.overflow=''}
- async function submitWallet(event){
-   event.preventDefault();const address=$('walletAddress').value.trim(),label=sanitizeLabel($('walletLabel').value);
-   $('walletDialogError').textContent='';
-   if(state.watch.length>=C.MAX_WALLETS)return void($('walletDialogError').textContent='الحد الأقصى 12 عنواناً في النسخة المجانية.');
-   if(!C.isAddressCandidate(address))return void($('walletDialogError').textContent='هذا لا يبدو عنوان Bitcoin صحيحاً. لا تدخل مفتاحاً سرياً.');
-   if(state.watch.some(x=>x.address===address))return void($('walletDialogError').textContent='هذا العنوان موجود في المتابعة بالفعل.');
-   const save=$('saveWallet');save.disabled=true;save.textContent='جارٍ التحقق...';
-   try{
-     if(!await validateAddress(address))throw Error('العنوان غير مقبول على شبكة Bitcoin الرئيسية.');
-     state.watch.push({address,label});saveWatch();closeDialog();renderWallets();await updateWallets();
-     document.getElementById('wallets').scrollIntoView({behavior:'smooth'});
-   }catch(e){$('walletDialogError').textContent=e.message?.includes('غير مقبول')?e.message:'تعذّر التأكد من العنوان الآن. جرّب عند عودة الاتصال.'}
-   finally{save.disabled=false;save.textContent='حفظ ومتابعة'}
- }
- function presentResult(title,content){
-   $('resultTitle').textContent=title;$('resultBody').replaceChildren(...content);$('resultPanel').hidden=false;
-   $('resultPanel').scrollIntoView({behavior:'smooth',block:'start'});
- }
- function infoField(name,value){const d=el('div','result-detail');d.append(el('small','',name),el('strong','',value));return d}
- async function searchAddress(address){
-   showError($('searchError'),'');
-   if(!C.isAddressCandidate(address))return showError($('searchError'),'العنوان غير صالح أو ليس من شبكة بيتكوين الرئيسية.');
-   try{
-     const [check,payload]=await Promise.all([
-       apiFetch(API+'/v1/validate-address/'+encodeURIComponent(address)),
-       apiFetch(API+'/address/'+encodeURIComponent(address))
-     ]);
-     if(check?.isvalid!==true||check?.address!==address)throw Error('invalid');
-     const bal=C.balanceOf(payload);if(!bal)throw Error('Invalid balance fields');
-     const code=el('p','result-code',address),grid=el('div','result-grid');
-     grid.append(infoField('الرصيد المؤكد',C.formatBtc(bal.confirmedSats)),
-       infoField('التغير غير المؤكد',((bal.pendingDeltaSats>0)?'+':'')+C.formatBtc(Math.abs(bal.pendingDeltaSats))+(bal.pendingDeltaSats<0?' (خصم)':'')),
-       infoField('المعاملات المؤكدة',number(bal.txCount)),
-       infoField('القيمة التقريبية',state.price?C.formatUsd(bal.confirmedSats/1e8*state.price.usd):'—'));
-     const controls=el('div','result-action-row'),add=el('button','btn-primary','+ متابعة هذا العنوان');add.type='button';add.addEventListener('click',()=>openDialog(address));
-     const ext=el('a','','عرض كامل المعاملات ↗');ext.href='https://mempool.space/address/'+encodeURIComponent(address);ext.target='_blank';ext.rel='noopener noreferrer';
-     controls.append(add,ext);
-     presentResult('عنوان بيتكوين', [code,grid,controls]);
-   }catch{showError($('searchError'),'تعذّر فحص العنوان حالياً. تأكد من الإنترنت ومن صحة العنوان ثم حاول مرة أخرى.');}
- }
- async function searchTx(txid){
-   showError($('searchError'),'');
-   try{
-     const tx=await apiFetch(API+'/tx/'+encodeURIComponent(txid),{timeout:12000});
-     if(tx?.txid?.toLowerCase()!==txid.toLowerCase())throw Error('mismatch');
-     const code=el('p','result-code',tx.txid),grid=el('div','result-grid'),confirmed=tx.status?.confirmed===true;
-     grid.append(infoField('الحالة',confirmed?'مؤكدة':'بانتظار التأكيد'),
-       infoField('الرسوم',Number.isSafeInteger(tx.fee)?number(tx.fee)+' ساتوشي':'—'),
-       infoField('حجم المعاملة',Number.isFinite(tx.size)?number(tx.size)+' بايت':'—'),
-       infoField('عدد المخارج',Array.isArray(tx.vout)?String(tx.vout.length):'—'));
-     const detail=el('div','result-action-row');const ext=el('a','','فتح في mempool.space ↗');ext.href='https://mempool.space/tx/'+encodeURIComponent(txid);ext.target='_blank';ext.rel='noopener noreferrer';detail.append(ext);
-     presentResult('تفاصيل المعاملة',[code,grid,detail]);
-   }catch{showError($('searchError'),'المعاملة غير موجودة أو لا يمكن جلب تفاصيلها حالياً.')}
- }
- async function onSearch(e){
-   e.preventDefault();if(searchBusy)return;const q=$('searchInput').value.trim();
-   if(!q)return showError($('searchError'),'أدخل عنوان بيتكوين أو معرّف معاملة.');
-   if(!C.isTxid(q)&&!C.isAddressCandidate(q))return showError($('searchError'),'الرجاء إدخال عنوان Bitcoin عام أو معرّف معاملة من 64 حرفاً.');
-   searchBusy=true;const button=document.querySelector('.search-submit');button.disabled=true;
-   try{if(C.isTxid(q))await searchTx(q);else await searchAddress(q)}finally{searchBusy=false;button.disabled=false}
- }
- function setMenu(open){$('menuPanel').hidden=!open;$('menuShade').hidden=!open;$('menuBtn').setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''}
- function events(){
-   $('refreshBtn').addEventListener('click',()=>{void updateAll(true);void updateWallets(true)});
-   $('refreshNetwork').addEventListener('click',()=>void fetchNetwork());
-   $('refreshTransactions').addEventListener('click',()=>void fetchRecent());
-   $('topSearchBtn').addEventListener('click',()=>{$('searchSection').scrollIntoView({behavior:'smooth'});$('searchInput').focus()});
-   $('searchForm').addEventListener('submit',onSearch);
-   $('addWalletBtn').addEventListener('click',()=>openDialog());
-   $('walletForm').addEventListener('submit',submitWallet);
-   for(const id of ['cancelWallet','dialogCancel'])$(id).addEventListener('click',closeDialog);
-   $('walletDialog').addEventListener('click',e=>{if(e.target===$('walletDialog'))closeDialog()});
-   $('closeResult').addEventListener('click',()=>{$('resultPanel').hidden=true});
-   document.querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>{state.sort=b.dataset.sort;document.querySelectorAll('.pill').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b))});renderWallets()}));
-   document.querySelectorAll('.bottom-link').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.bottom-link').forEach(x=>x.classList.toggle('selected',x===b));$(b.dataset.target).scrollIntoView({behavior:'smooth',block:'start'})}));
-   $('menuBtn').addEventListener('click',()=>setMenu($('menuPanel').hidden));$('closeMenu').addEventListener('click',()=>setMenu(false));$('menuShade').addEventListener('click',()=>setMenu(false));
-   document.querySelectorAll('[data-closemenu]').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-   document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);closeDialog()}});
- }
- function start(){
-   loadWatch();renderWallets();events();void updateAll(true);void updateWallets();
-   // Be considerate to the free providers; pause when tab is hidden.
-   setInterval(()=>{if(document.visibilityState==='visible')void updateAll(false)},90000);
-   setInterval(()=>{if(document.visibilityState==='visible')void updateWallets()},180000);
-   // Standalone edition: no external service worker required.
- }
- start();
-})();
+      const searchForm = document.getElementById('search');
+      const searchInput = document.getElementById('wallet-search');
+      const wallets = [...document.querySelectorAll('.wallet')];
+      const empty = document.getElementById('empty-wallets');
+      const message = document.getElementById('search-message');
+      function filterWallets() {
+        const query = searchInput.value.trim().toLowerCase();
+        let count = 0;
+        wallets.forEach(wallet => { wallet.hidden = !wallet.dataset.search.toLowerCase().includes(query); if (!wallet.hidden) count++; });
+        empty.hidden = count !== 0;
+        message.textContent = query ? 'نتائج البحث: ' + count : '';
+        message.hidden = !query;
+      }
+      searchInput.addEventListener('input', filterWallets);
+      searchForm.addEventListener('submit', event => {
+        event.preventDefault();
+        filterWallets();
+        const query = searchInput.value.trim();
+        const isAddress = /^(?:bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/i.test(query);
+        const isTransaction = /^[a-f0-9]{64}$/i.test(query);
+        if (isAddress || isTransaction) {
+          const link = document.createElement('a');
+          link.href = 'https://mempool.space/' + (isAddress ? 'address/' : 'tx/') + encodeURIComponent(query);
+          link.target = '_blank'; link.rel = 'noopener noreferrer';
+          link.textContent = 'عرض ' + (isAddress ? 'العنوان' : 'المعاملة') + ' في مستكشف البيتكوين ↗';
+          message.replaceChildren(link); message.hidden = false;
+        } else if (!query) searchInput.focus();
+      });
+      document.getElementById('reset-wallets').addEventListener('click', () => { searchInput.value = ''; filterWallets(); });
 
-</script>
-<script src="./v2.js?v=3" defer></script>
-<script src="./live-market-extras.js?v=1" defer></script>
-<script src="./v3.js?v=4" defer></script>
-<script src="./v4.js?v=2" defer></script>
+      const dialog = document.getElementById('about');
+      document.getElementById('menu').addEventListener('click', () => dialog.showModal());
+      document.getElementById('about-button').addEventListener('click', () => dialog.showModal());
+      document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', event => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); } });
+      dialog.querySelectorAll('[data-close]').forEach(link => link.addEventListener('click', () => dialog.close()));
+      function updateNav() {
+        const target = location.hash || '#home';
+        document.querySelectorAll('.bottom-nav a').forEach(link => { if (link.getAttribute('href') === target) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
+        if (target === '#search') searchInput.focus({preventScroll:true});
+      }
+      window.addEventListener('hashchange', updateNav);
+      document.querySelector('.bottom-nav a[href="#search"]').addEventListener('click', () => searchInput.focus({preventScroll:true}));
+      updateNav();
+    })();
+  </script>
 </body>
 </html>
