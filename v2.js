@@ -66,7 +66,7 @@ function render(){
   identity.append(addressLine,el('div','featured-label',item.label));
   const amount=el('div','featured-amount');
   amount.append(el('strong','',item.balance===null?'— BTC':num(item.balance)+' BTC'));
-  amount.append(el('small','',item.error?'تعذّر التحديث · آخر رصيد متاح':
+  amount.append(el('small','',item.error?(item.balance!==null?'⚠ رصيد محفوظ · '+(window.BtcPulseResilience?.asArabicDate(item.updated)||'تحديث سابق'):'تعذّر الجلب'):
      item.balance!==null&&state.usd!==null?'≈ '+money(item.balance*state.usd):'قيمة الدولار: —'));
   const share=el('div','featured-share');
   if(item.balance===null)share.append(el('span','',item.error?'تعذّر الجلب':'جارٍ التحديث'));
@@ -81,23 +81,51 @@ function render(){
 }
 async function load(force=false){
  if(document.visibilityState==='hidden')return;
+ const DATA=window.BtcPulseResilience;
  const targets=examples.filter(x=>force||!x.updated||Date.now()-x.updated>300000);
  if(!targets.length)return;
- document.getElementById('featuredStatus').textContent='جارٍ تحديث أرصدة عناوين بيتكوين العامة…';
- await Promise.allSettled(targets.map(async item=>{
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
-  try{
-   const response=await fetch(API+'/address/'+encodeURIComponent(item.address),{
-     credentials:'omit',cache:'no-store',headers:{Accept:'application/json'},signal:controller.signal});
-   if(!response.ok)throw Error('HTTP '+response.status);
-   const info=await response.json(),stats=info?.chain_stats;
-   const balance=stats?.funded_txo_sum-stats?.spent_txo_sum;
-   if(!Number.isSafeInteger(balance)||balance<0||!Number.isSafeInteger(stats.tx_count)||stats.tx_count<0)throw Error('Invalid balance');
-   item.balance=balance/1e8;item.txCount=stats.tx_count;item.error=false;item.updated=Date.now();
-  }catch{item.error=true;item.updated=Date.now()}finally{clearTimeout(timer)}
- }));
- const count=examples.filter(x=>x.balance!==null&&!x.error).length;
- document.getElementById('featuredStatus').textContent=count+' من 3 عناوين بأرصدة محدثة · ليست قائمة عالمية شاملة';
+ const status=document.getElementById('featuredStatus');
+ if(status)status.textContent='جارٍ جلب أرصدة عناوين بيتكوين العامة…';
+ // Do not send all three address requests at once. The shared adapter
+ // prioritizes an independent Esplora provider and limits global concurrency.
+ for(let i=0;i<targets.length;i+=2){
+   await Promise.allSettled(targets.slice(i,i+2).map(async item=>{
+     try{
+       let data,savedAt,stale=false;
+       if(DATA){
+         const response=await DATA.request('/address/'+encodeURIComponent(item.address),{force});
+         data=response.data;savedAt=response.savedAt;stale=response.stale;
+       }else{
+         const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
+         try{
+           const response=await fetch(API+'/address/'+encodeURIComponent(item.address),{
+             credentials:'omit',cache:'no-store',signal:controller.signal,
+             headers:{Accept:'application/json'}});
+           if(!response.ok)throw Error('HTTP '+response.status);
+           data=await response.json();savedAt=Date.now();
+         }finally{clearTimeout(timer)}
+       }
+       const stats=data?.chain_stats;
+       const balance=stats?.funded_txo_sum-stats?.spent_txo_sum;
+       if(!Number.isSafeInteger(balance)||balance<0||!Number.isSafeInteger(stats?.tx_count)||stats.tx_count<0)
+         throw Error('Invalid public address balance');
+       item.balance=balance/1e8;
+       item.txCount=stats.tx_count;
+       item.error=Boolean(stale);
+       item.updated=savedAt||Date.now();
+     }catch{
+       item.error=true;
+       // Preserve only a previously validated balance. No invented value.
+       if(item.balance===null)item.updated=Date.now();
+     }
+   }));
+   render();
+ }
+ const current=examples.filter(x=>x.balance!==null&&!x.error).length;
+ const saved=examples.filter(x=>x.balance!==null&&x.error).length;
+ if(status)status.textContent=current+' عناوين مباشرة'
+   +(saved?' · '+saved+' بأرصدة محفوظة قديمة':'')
+   +' · من 3 عناوين عامة مختارة، ليست قائمة عالمية شاملة';
  render();
 }
 const priceNode=document.getElementById('btcPrice');
