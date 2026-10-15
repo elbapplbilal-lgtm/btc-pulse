@@ -30,6 +30,7 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
   <link rel="stylesheet" href="./v3.css?v=4">
   <link rel="stylesheet" href="./v4.css?v=2">
   <title>BTC PULSE | بيتكوين مباشر</title>
+  <script src="./btcpulse-resilience.js?v=1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">انتقل للمحتوى</a>
@@ -201,6 +202,7 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
  'use strict';
  const C=window.BtcPulseCore;
  if(!C)return;
+ const DATA=window.BtcPulseResilience;
  const $=id=>document.getElementById(id);
  const API='https://mempool.space/api',CG='https://api.coingecko.com/api/v3';
  const LS_KEY='btcpulse.public.watch.v1';
@@ -210,6 +212,12 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
  const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
  const number=(n,d=0)=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:d,minimumFractionDigits:0}).format(n):'—';
  const apiFetch=async(url,{timeout=9000}={})=>{
+   // The same Esplora API contract is available from an independent provider.
+   // Search results can fall back to a last known public address response too.
+   if(DATA&&url.startsWith(API+'/address/')){
+     const response=await DATA.request(url.slice(API.length));
+     return response.data;
+   }
    const control=new AbortController(),timer=setTimeout(()=>control.abort(),timeout);
    try{
      const r=await fetch(url,{method:'GET',mode:'cors',credentials:'omit',cache:'no-store',headers:{Accept:'application/json'},signal:control.signal});
@@ -317,43 +325,87 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
    }
  }
  async function fetchNetwork(){
-   const targets=[['fees',API+'/v1/fees/recommended'],['pending',API+'/mempool'],['diff',API+'/v1/difficulty-adjustment']];
-   const results=await Promise.allSettled(targets.map(async([kind,url])=>[kind,await apiFetch(url)]));
-   let any=false;
-   for(const r of results){
-     if(r.status!=='fulfilled')continue;
-     const [kind,payload]=r.value;
+   const specs=[
+     {kind:'fees',path:'/v1/fees/recommended'},
+     {kind:'pending',path:'/mempool'},
+     {kind:'diff',path:'/v1/difficulty-adjustment'}
+   ];
+   const results=await Promise.allSettled(specs.map(async spec=>{
+     if(DATA)return {kind:spec.kind,result:await DATA.request(spec.path)};
+     const result=await apiFetch(API+spec.path);
+     return {kind:spec.kind,result:{data:result,stale:false,source:'mempool.space',savedAt:Date.now()}};
+   }));
+   let valid=0,stale=[],fresh=[],failed=0;
+   for(const outcome of results){
+     if(outcome.status!=='fulfilled'){failed++;continue}
+     const {kind,result}=outcome.value,payload=result.data;
      if(kind==='fees'){
-       const v=C.normalizeFees(payload);if(!v)continue;
-       any=true;$('fastFee').textContent=number(v.high,1)+' sat/vB';$('economyFee').textContent=number(v.economy,1)+' sat/vB';if($('feeHint'))$('feeHint').textContent=number(v.half,1)+' sat/vB';
+       const v=C.normalizeFees(payload);if(!v){failed++;continue}
+       valid++;
+       $('fastFee').textContent=number(v.high,1)+' sat/vB';
+       $('economyFee').textContent=number(v.economy,1)+' sat/vB';
+       if($('feeHint'))$('feeHint').textContent=number(v.half,1)+' sat/vB';
      }
      if(kind==='pending'){
-       const v=C.normalizeMempool(payload);if(!v)continue;
-       any=true;$('networkPending').textContent=number(v.count);if($('pendingCount'))$('pendingCount').textContent=number(v.count);
+       const v=C.normalizeMempool(payload);if(!v){failed++;continue}
+       valid++;
+       $('networkPending').textContent=number(v.count);
+       if($('pendingCount'))$('pendingCount').textContent=number(v.count);
        $('networkVsize').textContent='حجم البيانات: '+number(v.vsize/1e6,1)+' MB';
      }
      if(kind==='diff'){
-       const v=C.normalizeDifficulty(payload);if(!v)continue;
-       any=true;$('difficultyChange').textContent=(v.change>0?'+':'')+number(v.change,2)+'%';
+       const v=C.normalizeDifficulty(payload);if(!v){failed++;continue}
+       valid++;
+       $('difficultyChange').textContent=(v.change>0?'+':'')+number(v.change,2)+'%';
        $('difficultyTime').textContent=v.time?'متوقع: '+new Date(v.time).toLocaleDateString('ar-MA'):'موعد التعديل غير متوفر';
      }
+     if(result.stale)stale.push(result.savedAt);
+     else fresh.push(result.source);
    }
-   return any;
+   // Distinguish cached older values from verified current responses.
+   const section=document.getElementById('fees');
+   const caption=section?.querySelector('#networkSourceStatus')||(()=>{
+     if(!section)return null;
+     const e=el('p','','');e.id='networkSourceStatus';e.setAttribute('role','status');
+     section.querySelector('.section-head')?.append(e);return e;
+   })();
+   if(caption){
+     if(stale.length){
+       const recent=Math.max(...stale);
+       caption.textContent='⚠ بعض الأرقام محفوظة من '+(DATA?DATA.asArabicDate(recent):'تحديث سابق')+' وليست مباشرة'
+         +(failed?' · بعض البيانات غير متاحة':'');
+       caption.style.color='#ffc18a';
+     }else if(fresh.length){
+       caption.textContent='● بيانات من '+[...new Set(fresh)].join(' و ')+(failed?' · بعض البيانات غير متاحة':'');
+       caption.style.color='#a7e0c0';
+     }else{
+       caption.textContent='تعذّر الاتصال بمصادر الشبكة؛ لم يتم عرض قيم غير مؤكدة';
+       caption.style.color='#ffc18a';
+     }
+   }
+   return valid>0;
  }
  async function fetchRecent(){
    try{
-     const list=C.normalizeRecent(await apiFetch(API+'/mempool/recent'));
+     const response=DATA?await DATA.request('/mempool/recent'):{
+       data:await apiFetch(API+'/mempool/recent'),stale:false,source:'mempool.space'
+     };
+     const list=C.normalizeRecent(response.data);
      const box=$('txList');box.replaceChildren();
+     if(response.stale)box.append(el('div','skeleton-message','⚠ معاملات من آخر تحديث محفوظ · '+(DATA?DATA.asArabicDate(response.savedAt):'')));
      if(!list.length){box.append(el('div','skeleton-message','لا تتوفر معاملات جديدة حالياً. حاول لاحقاً.'));return false}
      for(const tx of list){
        const row=el('div','tx-row'),main=el('div','tx-main'),details=el('div','tx-right');
        const a=el('a','tx-id',C.shortId(tx.txid));a.href='https://mempool.space/tx/'+encodeURIComponent(tx.txid);a.target='_blank';a.rel='noopener noreferrer';
-       main.append(a,el('small','','معاملة رُصدت حديثاً'));
+       main.append(a,el('small','',response.stale?'معاملة من بيانات محفوظة':'معاملة رُصدت حديثاً'));
        details.append(el('strong','',C.formatBtc(tx.value,6)),el('small','','رسوم '+number(tx.feeRate,1)+' sat/vB'));
        row.append(main,details);box.append(row);
      }
-     state.lastFeed=Date.now();return true;
-   }catch{$('txList').replaceChildren(el('div','skeleton-message','تعذّر جلب المعاملات الجديدة. المصدر قد يكون غير متاح مؤقتاً.'));return false}
+     state.lastFeed=response.savedAt||Date.now();return !response.stale;
+   }catch{
+     $('txList').replaceChildren(el('div','skeleton-message','تعذّر جلب المعاملات الجديدة؛ المصدران غير متاحين مؤقتاً.'));
+     return false;
+   }
  }
  async function updateAll(withChart=false){
    if(updateBusy)return;
@@ -377,19 +429,35 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
  function saveWatch(){try{localStorage.setItem(LS_KEY,JSON.stringify(state.watch))}catch{showError($('searchError'),'تعذّر الحفظ على هذا المتصفح. مساحة التخزين قد تكون ممتلئة.') }}
  async function validateAddress(address){
    if(!C.isAddressCandidate(address))return false;
-   const result=await apiFetch(API+'/v1/validate-address/'+encodeURIComponent(address));
-   return result?.isvalid===true&&result?.address===address;
+   try{
+     const result=await apiFetch(API+'/v1/validate-address/'+encodeURIComponent(address));
+     return result?.isvalid===true&&result?.address===address;
+   }catch{
+     // Blockstream's Esplora address endpoint can verify a public address
+     // even when mempool.space's validation-specific route is unreachable.
+     if(!DATA)return false;
+     try{
+       const response=await DATA.request('/address/'+encodeURIComponent(address));
+       return Boolean(C.balanceOf(response.data));
+     }catch{return false}
+   }
  }
  async function fetchBalance(address,force=false){
    const old=state.balances.get(address);
-   if(!force&&old&&Date.now()-old.at<90000)return old;
+   if(!force&&old&&!old.error&&Date.now()-old.at<180000)return old;
    try{
-     const payload=await apiFetch(API+'/address/'+encodeURIComponent(address));
-     const result=C.balanceOf(payload);if(!result)throw Error('Invalid address data');
-     const x={...result,at:Date.now(),error:false};state.balances.set(address,x);return x;
+     const response=DATA?await DATA.request('/address/'+encodeURIComponent(address),{force}):{
+       data:await apiFetch(API+'/address/'+encodeURIComponent(address)),savedAt:Date.now(),stale:false,source:'mempool.space'
+     };
+     const result=C.balanceOf(response.data);
+     if(!result)throw Error('Invalid public address balance');
+     const x={...result,at:response.savedAt||Date.now(),source:response.source,
+       error:Boolean(response.stale),stale:Boolean(response.stale)};
+     state.balances.set(address,x);return x;
    }catch{
-     // Keep last-known data but mark it stale; never present it as current.
-     const stale=old?{...old,error:true}:{error:true};state.balances.set(address,stale);return stale;
+     // Never present failed live updates as fresh data.
+     const stale=old?{...old,error:true,stale:true}:{error:true,stale:true};
+     state.balances.set(address,stale);return stale;
    }
  }
  function walletSort(items){
@@ -412,7 +480,7 @@ section{scroll-margin-top:20px}.section-head{display:flex;justify-content:space-
      const info=el('div','wallet-info');info.append(el('div','wallet-address',C.shortId(item.address)),el('div','wallet-meta',item.label||'عنوان عام غير موثّق'));
      const balance=el('div','wallet-balance');const sats=item.data?.confirmedSats;
      balance.append(el('strong','',Number.isSafeInteger(sats)?C.formatBtc(sats):'— BTC'));
-     balance.append(el('small','',item.data?.error?'تعذّر التحديث':Number.isSafeInteger(sats)?'رصيد مؤكد':'جاري جلب الرصيد'));
+     balance.append(el('small','',item.data?.error?(Number.isSafeInteger(sats)?'⚠ آخر رصيد محفوظ '+(DATA?DATA.asArabicDate(item.data.at):''):'تعذّر تحديث الرصيد'):Number.isSafeInteger(sats)?'رصيد مؤكد · '+(item.data.source||'شبكة بيتكوين'):'جاري جلب الرصيد'));
      if(state.price&&Number.isSafeInteger(sats))balance.append(el('small','',C.formatUsd(sats/1e8*state.price.usd)));
      const actions=el('div','wallet-actions');const search=el('button','','⌕');search.type='button';search.title='عرض تفاصيل العنوان';search.setAttribute('aria-label','عرض تفاصيل '+item.address);search.addEventListener('click',()=>searchAddress(item.address));
      const remove=el('button','','×');remove.type='button';remove.title='حذف من المتابعة';remove.setAttribute('aria-label','إزالة '+item.address);remove.addEventListener('click',()=>{state.watch=state.watch.filter(x=>x.address!==item.address);state.balances.delete(item.address);saveWatch();renderWallets()});
